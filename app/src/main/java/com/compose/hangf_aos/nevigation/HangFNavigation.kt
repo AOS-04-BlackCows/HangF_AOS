@@ -13,7 +13,7 @@ import com.compose.hangf_aos.Screens.Customer.Reservation.ReservationUI
 import com.compose.hangf_aos.Screens.home.MainHome
 
 @Composable
-fun HangFNavigation(pageName: String, modifier: Modifier = Modifier){
+fun HangFNavigation(pageName: String, modifier: Modifier = Modifier) {
     val navController = rememberNavController()//네비게이션을 관리 하는 컨트롤러
 
     //네비게이션의 컨테이너 역활을 함
@@ -22,25 +22,37 @@ fun HangFNavigation(pageName: String, modifier: Modifier = Modifier){
         startDestination = Bookmark.CustomerInfo.name
     ) {
         //Nav Graph
+        // 초기 유저 정보 입력
+        composable(route = Bookmark.CustomerInfo.name)
+        { InfoUI(navController = navController, modifier = modifier, pageName) }
+
         composable(
-            route = Bookmark.MainHome.name+"/{name},{phone}",
+            route = Bookmark.MainHome.name + "/{name},{phone}",
             arguments = listOf(
-                navArgument("name"){type = NavType.StringType},
-                navArgument("phone"){type = NavType.StringType},
-            ))
+                navArgument("name") { type = NavType.StringType },
+                navArgument("phone") { type = NavType.StringType },
+            )
+        )
         {
             MainHome(
                 navController = navController,
-                modifier = Modifier,
+                modifier = modifier,
+                pageName = "메인 화면",
                 it.arguments?.getString("name"),
                 it.arguments?.getString("phone")
             )
         }
-        composable(route = Bookmark.CustomerInfo.name)
-        { InfoUI(navController = navController) }
+
         composable(route = Bookmark.CustomerReservation.name)
-        { ReservationUI(navController = navController) }
+        {
+            ReservationUI(
+                navController = navController,
+                modifier = modifier,
+                pageName = "예약화면"
+            )
+        }
+
         composable(route = Bookmark.CustomerConfirmed.name)
-        {ConfirmedUI(navController = navController)}
+        { ConfirmedUI(navController = navController) }
     }
 }
