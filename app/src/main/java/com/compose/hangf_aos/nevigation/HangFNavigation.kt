@@ -44,15 +44,9 @@ fun HangFNavigation(pageName: String, modifier: Modifier = Modifier) {
         }
 
         composable(route = Bookmark.CustomerReservation.name)
-        {
-            ReservationUI(
-                navController = navController,
-                modifier = modifier,
-                pageName = "예약화면"
-            )
-        }
+        { ReservationUI(navController = navController, modifier = modifier, pageName = "예약화면") }
 
         composable(route = Bookmark.CustomerConfirmed.name)
-        { ConfirmedUI(navController = navController) }
+        { ConfirmedUI(navController = navController, modifier = modifier, pageName = "확정화면") }
     }
 }
