@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.nevigation
+package com.compose.hangf_aos.View.nevigation
 
 enum class Bookmark {
     Splash,
