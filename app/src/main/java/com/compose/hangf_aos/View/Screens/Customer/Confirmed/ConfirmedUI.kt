@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.Screens.Customer.Confirmed
+package com.compose.hangf_aos.View.Screens.Customer.Confirmed
 
 import android.util.Log
 import android.widget.Toast
@@ -43,7 +43,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.compose.hangf_aos.R
-import com.compose.hangf_aos.nevigation.Bookmark
+import com.compose.hangf_aos.View.nevigation.Bookmark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

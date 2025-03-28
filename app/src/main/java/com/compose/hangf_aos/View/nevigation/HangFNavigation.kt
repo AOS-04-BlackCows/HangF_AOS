@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.nevigation
+package com.compose.hangf_aos.View.nevigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,10 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.compose.hangf_aos.Screens.Customer.Confirmed.ConfirmedUI
-import com.compose.hangf_aos.Screens.Customer.Info.InfoUI
-import com.compose.hangf_aos.Screens.Customer.Reservation.ReservationUI
-import com.compose.hangf_aos.Screens.home.MainHome
+import com.compose.hangf_aos.View.Screens.Customer.Confirmed.ConfirmedUI
+import com.compose.hangf_aos.View.Screens.Customer.Info.InfoUI
+import com.compose.hangf_aos.View.Screens.Customer.Reservation.ReservationUI
+import com.compose.hangf_aos.View.Screens.MainHome
 
 @Composable
 fun HangFNavigation(pageName: String, modifier: Modifier = Modifier) {

@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.Screens.home
+package com.compose.hangf_aos.View.Screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -27,9 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
 import com.compose.hangf_aos.R
-import com.compose.hangf_aos.nevigation.Bookmark
+import com.compose.hangf_aos.View.nevigation.Bookmark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

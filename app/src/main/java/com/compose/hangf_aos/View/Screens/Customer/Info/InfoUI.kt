@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.Screens.Customer.Info
+package com.compose.hangf_aos.View.Screens.Customer.Info
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.compose.hangf_aos.nevigation.Bookmark
+import com.compose.hangf_aos.View.nevigation.Bookmark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

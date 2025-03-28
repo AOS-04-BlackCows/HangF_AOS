@@ -69,5 +69,8 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("androidx.navigation:navigation-compose:2.7.5")
-    
+
+    //MariaDB JDBC 드라이버 추가
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.0")
+
 }
