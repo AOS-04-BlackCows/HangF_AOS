@@ -10,5 +10,6 @@ interface ApiService {
 
 data class Customer(
     val id: Long,
-    val name: String
+    val name: String,
+    val phoneNumber: String
 )

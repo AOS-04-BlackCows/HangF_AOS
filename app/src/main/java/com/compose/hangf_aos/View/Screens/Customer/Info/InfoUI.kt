@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,6 +21,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,8 +34,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.compose.hangf_aos.Intent.Customer
+import com.compose.hangf_aos.Model.CustomerIntent
+import com.compose.hangf_aos.Model.CustomerState
 import com.compose.hangf_aos.View.nevigation.Bookmark
+import com.compose.hangf_aos.ViewModel.CustomerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -109,7 +117,28 @@ fun  InfoUI(navController: NavController, modifier: Modifier = Modifier, pageNam
                         Text(text = "홈으로")
                     }
                 }
+                CustomerScreen()
             }
         }
     )
+}
+
+@Composable
+fun CustomerScreen(viewModel: CustomerViewModel = hiltViewModel()) {
+    val state by viewModel.state.collectAsState()
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        val customer = Customer(id = 0, name = "홍길동", phoneNumber = "01012345678")
+
+        Button(onClick = { viewModel.handleIntent(CustomerIntent.AddCustomer(customer)) }) {
+            Text("고객 추가")
+        }
+
+        when (state) {
+            is CustomerState.Loading -> CircularProgressIndicator()
+            is CustomerState.Success -> Text(text = (state as CustomerState.Success).message)
+            is CustomerState.Error -> Text(text = (state as CustomerState.Error).error, color = Color.Red)
+            else -> {}
+        }
+    }
 }
