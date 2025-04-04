@@ -5,17 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,28 +24,28 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.compose.hangf_aos.Intent.Customer
-import com.compose.hangf_aos.Model.CustomerIntent
-import com.compose.hangf_aos.Model.CustomerState
+import com.compose.hangf_aos.View.Screens.Customer.CustomerIntent
+import com.compose.hangf_aos.View.Screens.Customer.CustomerState
+import com.compose.hangf_aos.View.Screens.Customer.CustomerViewModel
 import com.compose.hangf_aos.View.nevigation.Bookmark
-import com.compose.hangf_aos.ViewModel.CustomerViewModel
+import com.compose.hangf_aos.data.Model.Customer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun  InfoUI(navController: NavController, modifier: Modifier = Modifier, pageName: String) {
+fun  InfoUI(viewModel: CustomerViewModel, navController: NavController, modifier: Modifier = Modifier, pageName: String) {
     val (name, setName) = remember { mutableStateOf("") }
     val (phone, setPhone) = remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
+
+    val state by viewModel.state.collectAsState()
 
     Scaffold(
         topBar = {
@@ -111,34 +108,48 @@ fun  InfoUI(navController: NavController, modifier: Modifier = Modifier, pageNam
                     placeholder = { Text("전화번호") },
                     label = { Text("전화번호") }
                 )
+
+                //DB 테스트 코드 시작점
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        val customer = Customer(name, phone)
+                        viewModel.handleIntent(CustomerIntent.AddCustomer(customer))
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("고객 추가")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        viewModel.handleIntent(CustomerIntent.GetCustomer(phone))
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("고객 조회")
+                }
+
+                when (state) {
+                    is CustomerState.Loading -> CircularProgressIndicator()
+                    is CustomerState.Success -> {
+                        val customer = (state as CustomerState.Success).customer
+                        customer?.let {
+                            Text("이름: ${it.name}, 전화번호: ${it.phone}")
+                        } ?: Text("고객 정보 없음")
+                    }
+                    is CustomerState.Error -> Toast.makeText(context, (state as CustomerState.Error).message, Toast.LENGTH_SHORT).show()
+                    else -> {}
+                }
+                //DB 테스트 코드 끝점
+
                 Spacer(modifier = modifier.height(10.dp))
                 if (name.isNotEmpty()&&phone.isNotEmpty()){
                     Button(onClick = { navController.navigate(Bookmark.MainHome.name+"/$name,$phone") }) {
                         Text(text = "홈으로")
                     }
                 }
-                CustomerScreen()
             }
         }
     )
-}
-
-@Composable
-fun CustomerScreen(viewModel: CustomerViewModel = hiltViewModel()) {
-    val state by viewModel.state.collectAsState()
-
-    Column(modifier = Modifier.padding(16.dp)) {
-        val customer = Customer(id = 0, name = "홍길동", phoneNumber = "01012345678")
-
-        Button(onClick = { viewModel.handleIntent(CustomerIntent.AddCustomer(customer)) }) {
-            Text("고객 추가")
-        }
-
-        when (state) {
-            is CustomerState.Loading -> CircularProgressIndicator()
-            is CustomerState.Success -> Text(text = (state as CustomerState.Success).message)
-            is CustomerState.Error -> Text(text = (state as CustomerState.Error).error, color = Color.Red)
-            else -> {}
-        }
-    }
 }

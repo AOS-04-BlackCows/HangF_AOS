@@ -1,22 +1,16 @@
 package com.compose.hangf_aos
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.compose.hangf_aos.Intent.ApiService
-import com.compose.hangf_aos.Intent.DatabaseHelper
 import com.compose.hangf_aos.View.nevigation.HangFNavigation
 import com.compose.hangf_aos.ui.theme.HangF_AOSTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 //private val retrofit = Retrofit.Builder()
 //    .baseUrl("http://API_서버_IP:8080/")  // 주의: 실제 배포 시 HTTPS 필수
@@ -38,7 +32,7 @@ class MainActivity : ComponentActivity() {
         }
 
         //DB Test Code
-        lifecycleScope.launch(Dispatchers.IO) {
+//        lifecycleScope.launch(Dispatchers.IO) {
 //            DB 직접 연결
 //            try {
 //                val data = DatabaseHelper.fetchData()
@@ -63,6 +57,6 @@ class MainActivity : ComponentActivity() {
 //            } catch (e: Exception) {
 //                Log.e("DB_TEST API_ERROR", e.message ?: "Unknown error")
 //            }
-        }
+//        }
     }
 }
