@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.compose.hangf_aos.View.Screens.Customer.CustomerIntent
 import com.compose.hangf_aos.View.Screens.Customer.CustomerState
-import com.compose.hangf_aos.View.Screens.Customer.CustomerViewModel
 import com.compose.hangf_aos.View.nevigation.Bookmark
-import com.compose.hangf_aos.data.Model.Customer
+import com.compose.hangf_aos.data.model.Customer
+import com.compose.hangf_aos.view.screens.customer.CustomerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

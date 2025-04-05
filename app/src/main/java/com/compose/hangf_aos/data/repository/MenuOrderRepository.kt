@@ -1,0 +1,74 @@
+package com.compose.hangf_aos.data.repository
+
+import com.compose.hangf_aos.data.model.MenuOrder
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
+
+class MenuOrderRepository(
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+) {
+    private val menuOrdersRef = db.collection("menuOrders")
+
+    // 메뉴 주문 추가
+    suspend fun addMenuOrder(menuOrder: MenuOrder): Result<Unit> {
+        return try {
+            val docRef = if (menuOrder.id.isEmpty()) menuOrdersRef.document() else menuOrdersRef.document(menuOrder.id)
+            docRef.set(menuOrder.copy(id = docRef.id)).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 메뉴 주문 조회
+    suspend fun getMenuOrder(menuOrderId: String): Result<MenuOrder?> {
+        return try {
+            val snapshot = menuOrdersRef.document(menuOrderId).get().await()
+            Result.success(snapshot.toObject(MenuOrder::class.java))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 모든 메뉴 주문 조회
+    suspend fun getAllMenuOrders(): Result<List<MenuOrder>> {
+        return try {
+            val snapshot = menuOrdersRef.get().await()
+            val orders = snapshot.documents.mapNotNull { it.toObject(MenuOrder::class.java) }
+            Result.success(orders)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 등록 시간 순으로 정렬된 메뉴 주문 조회
+    suspend fun getMenuOrdersByTime(): Result<List<MenuOrder>> {
+        return try {
+            val snapshot = menuOrdersRef.orderBy("timestamp").get().await()
+            val orders = snapshot.documents.mapNotNull { it.toObject(MenuOrder::class.java) }
+            Result.success(orders)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 메뉴 주문 수정
+    suspend fun updateMenuOrder(menuOrder: MenuOrder): Result<Unit> {
+        return try {
+            menuOrdersRef.document(menuOrder.id).set(menuOrder).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 메뉴 주문 삭제
+    suspend fun deleteMenuOrder(menuOrderId: String): Result<Unit> {
+        return try {
+            menuOrdersRef.document(menuOrderId).delete().await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+}

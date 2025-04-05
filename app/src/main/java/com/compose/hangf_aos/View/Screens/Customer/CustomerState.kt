@@ -1,10 +1,12 @@
 package com.compose.hangf_aos.View.Screens.Customer
 
-import com.compose.hangf_aos.data.Model.Customer
+import com.compose.hangf_aos.data.model.Customer
 
 sealed class CustomerState {
-    object Idle : CustomerState()
-    object Loading : CustomerState()
+    data object Idle : CustomerState()
+    data object Loading : CustomerState()
     data class Success(val customer: Customer?) : CustomerState()
+    data class ListSuccess(val customers: List<Customer>) : CustomerState()
+    data class Message(val message: String) : CustomerState() // 성공 메시지용
     data class Error(val message: String) : CustomerState()
 }
