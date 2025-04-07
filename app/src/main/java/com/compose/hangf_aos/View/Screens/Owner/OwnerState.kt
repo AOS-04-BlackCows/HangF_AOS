@@ -1,6 +1,5 @@
-package com.compose.hangf_aos.View.Screens.StoreOwner
+package com.compose.hangf_aos.View.Screens.Owner
 
-import com.compose.hangf_aos.View.Screens.Customer.CustomerState
 import com.compose.hangf_aos.data.model.Owner
 
 sealed class OwnerState {

@@ -1,9 +1,7 @@
-package com.compose.hangf_aos.View.Screens.StoreOwner
+package com.compose.hangf_aos.View.Screens.Owner
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.compose.hangf_aos.View.Screens.StoreOwner.OwnerIntent
-import com.compose.hangf_aos.View.Screens.StoreOwner.OwnerState
 import com.compose.hangf_aos.data.model.Owner
 import com.compose.hangf_aos.domain.usecase.OwnerUseCase
 import kotlinx.coroutines.flow.MutableStateFlow

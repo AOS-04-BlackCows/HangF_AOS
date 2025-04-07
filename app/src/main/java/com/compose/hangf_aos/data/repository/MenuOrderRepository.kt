@@ -41,6 +41,28 @@ class MenuOrderRepository(
         }
     }
 
+    // 특정 가게의 메뉴 주문 조회
+    suspend fun getMenuOrdersByStore(storeId: String): Result<List<MenuOrder>> {
+        return try {
+            val snapshot = menuOrdersRef.whereEqualTo("storeId", storeId).get().await()
+            val orders = snapshot.documents.mapNotNull { it.toObject(MenuOrder::class.java) }
+            Result.success(orders)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 특정 메뉴 아이디의 주문 조회
+    suspend fun getMenuOrdersByMenuId(menuId: String): Result<List<MenuOrder>> {
+        return try {
+            val snapshot = menuOrdersRef.whereEqualTo("menuId", menuId).get().await()
+            val orders = snapshot.documents.mapNotNull { it.toObject(MenuOrder::class.java) }
+            Result.success(orders)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     // 등록 시간 순으로 정렬된 메뉴 주문 조회
     suspend fun getMenuOrdersByTime(): Result<List<MenuOrder>> {
         return try {

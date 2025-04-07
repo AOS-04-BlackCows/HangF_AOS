@@ -123,7 +123,7 @@ fun  InfoUI(viewModel: CustomerViewModel, navController: NavController, modifier
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     onClick = {
-                        viewModel.handleIntent(CustomerIntent.GetCustomer(phone))
+                        viewModel.handleIntent(CustomerIntent.GetAllCustomers)
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -137,6 +137,12 @@ fun  InfoUI(viewModel: CustomerViewModel, navController: NavController, modifier
                         customer?.let {
                             Text("이름: ${it.name}, 전화번호: ${it.phone}")
                         } ?: Text("고객 정보 없음")
+                    }
+                    is CustomerState.ListSuccess -> {
+                        val customers = (state as CustomerState.ListSuccess).customers
+                        customers.forEach {
+                            Text("이름: ${it.name}, 전화번호: ${it.phone}")
+                        }
                     }
                     is CustomerState.Error -> Toast.makeText(context, (state as CustomerState.Error).message, Toast.LENGTH_SHORT).show()
                     else -> {}

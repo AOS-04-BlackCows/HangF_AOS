@@ -12,7 +12,8 @@ class OrderRepository(
     // 주문 추가
     suspend fun addOrder(order: Order): Result<Unit> {
         return try {
-            val docRef = if (order.id.isEmpty()) ordersRef.document() else ordersRef.document(order.id)
+            val docRef =
+                if (order.id.isEmpty()) ordersRef.document() else ordersRef.document(order.id)
             docRef.set(order.copy(id = docRef.id)).await()
             Result.success(Unit)
         } catch (e: Exception) {
@@ -41,10 +42,43 @@ class OrderRepository(
         }
     }
 
+    // 특정 고객의 주문 조회
+    suspend fun getOrdersByCustomer(customerId: String): Result<List<Order>> {
+        return try {
+            val snapshot = ordersRef.whereEqualTo("customerId", customerId).get().await()
+            val orders = snapshot.documents.mapNotNull { it.toObject(Order::class.java) }
+            Result.success(orders)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 특정 가게의 주문 조회
+    suspend fun getOrdersByStore(storeId: String): Result<List<Order>> {
+        return try {
+            val snapshot = ordersRef.whereEqualTo("storeId", storeId).get().await()
+            val orders = snapshot.documents.mapNotNull { it.toObject(Order::class.java) }
+            Result.success(orders)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     // 등록 시간 순으로 정렬된 주문 목록 조회
     suspend fun getOrdersByTime(): Result<List<Order>> {
         return try {
             val snapshot = ordersRef.orderBy("timestamp").get().await()
+            val orders = snapshot.documents.mapNotNull { it.toObject(Order::class.java) }
+            Result.success(orders)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    // 특정 상태의 주문 목록 조회
+    suspend fun getOrdersByStatus(status: String): Result<List<Order>> {
+        return try {
+            val snapshot = ordersRef.whereEqualTo("status", status).get().await()
             val orders = snapshot.documents.mapNotNull { it.toObject(Order::class.java) }
             Result.success(orders)
         } catch (e: Exception) {
