@@ -1,9 +1,10 @@
 package com.compose.hangf_aos.domain.usecase
 
 import com.compose.hangf_aos.data.model.Menu
-import com.compose.hangf_aos.data.repository.MenuRepository
+import com.compose.hangf_aos.data.repository.repoInterfaces.MenuRepository
+import javax.inject.Inject
 
-class MenuUseCase (
+class MenuUseCase @Inject constructor(
     private val menuRepository: MenuRepository
 ) {
     suspend fun addMenu(menu: Menu): Result<Unit> {

@@ -5,12 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.lifecycleScope
-import com.compose.hangf_aos.View.nevigation.HangFNavigation
+import com.compose.hangf_aos.views.nevigation.HangFNavigation
 import com.compose.hangf_aos.ui.theme.HangF_AOSTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 //private val retrofit = Retrofit.Builder()
 //    .baseUrl("http://API_서버_IP:8080/")  // 주의: 실제 배포 시 HTTPS 필수

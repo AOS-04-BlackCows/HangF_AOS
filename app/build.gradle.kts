@@ -8,8 +8,8 @@ plugins {
 
     alias(libs.plugins.compose.compiler)
     //Hilt 추가
-    id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -80,6 +80,7 @@ dependencies {
     // coil-kt 라이브러리 추가
     implementation("io.coil-kt:coil-compose:2.7.0")
     // navigation 추가
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
     // MariaDB JDBC 드라이버 추가 = fail...삭제 예정
@@ -94,7 +95,10 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
     // Hilt 추가
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation ("com.google.dagger:hilt-android:2.56.1")
     kapt ("com.google.dagger:hilt-compiler:2.56.1")
+}
+
+kapt {
+    correctErrorTypes = true
 }

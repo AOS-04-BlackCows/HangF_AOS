@@ -1,9 +1,10 @@
 package com.compose.hangf_aos.domain.usecase
 
 import com.compose.hangf_aos.data.model.Store
-import com.compose.hangf_aos.data.repository.StoreRepository
+import com.compose.hangf_aos.data.repository.repoInterfaces.StoreRepository
+import javax.inject.Inject
 
-class StoreUseCase (
+class StoreUseCase @Inject constructor(
     private val storeRepository: StoreRepository
 ) {
     suspend fun addStore(store: Store): Result<Unit> {

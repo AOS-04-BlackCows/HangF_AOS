@@ -1,9 +1,10 @@
 package com.compose.hangf_aos.domain.usecase
 
 import com.compose.hangf_aos.data.model.Order
-import com.compose.hangf_aos.data.repository.OrderRepository
+import com.compose.hangf_aos.data.repository.repoInterfaces.OrderRepository
+import javax.inject.Inject
 
-class OrderUseCase (
+class OrderUseCase @Inject constructor(
     private val orderRepository: OrderRepository
 ){
     suspend fun addOrder(order: Order): Result<Unit> {
