@@ -1,9 +1,10 @@
 package com.compose.hangf_aos.domain.usecase
 
 import com.compose.hangf_aos.data.model.Owner
-import com.compose.hangf_aos.data.repository.OwnerRepository
+import com.compose.hangf_aos.data.repository.repoInterfaces.OwnerRepository
+import javax.inject.Inject
 
-class OwnerUseCase(
+class OwnerUseCase @Inject constructor(
     private val ownerRepository: OwnerRepository
 ) {
     suspend fun addOwner(Owner: Owner): Result<Unit> {

@@ -1,9 +1,10 @@
 package com.compose.hangf_aos.domain.usecase
 
 import com.compose.hangf_aos.data.model.Customer
-import com.compose.hangf_aos.data.repository.CustomerRepository
+import com.compose.hangf_aos.data.repository.repoInterfaces.CustomerRepository
+import javax.inject.Inject
 
-class CustomerUseCase(
+class CustomerUseCase @Inject constructor(
     private val customerRepository: CustomerRepository
 ) {
 
