@@ -11,6 +11,9 @@ import com.compose.hangf_aos.View.Screens.Customer.Confirmed.ConfirmedUI
 import com.compose.hangf_aos.View.Screens.Customer.Info.InfoUI
 import com.compose.hangf_aos.View.Screens.Customer.Reservation.ReservationUI
 import com.compose.hangf_aos.View.Screens.MainHome
+import com.compose.hangf_aos.data.repository.CustomerRepository
+import com.compose.hangf_aos.domain.usecase.CustomerUseCase
+import com.compose.hangf_aos.view.screens.customer.CustomerViewModel
 
 @Composable
 fun HangFNavigation(pageName: String, modifier: Modifier = Modifier) {
@@ -24,7 +27,7 @@ fun HangFNavigation(pageName: String, modifier: Modifier = Modifier) {
         //Nav Graph
         // 초기 유저 정보 입력
         composable(route = Bookmark.CustomerInfo.name)
-        { InfoUI(navController = navController, modifier = modifier, pageName) }
+        { InfoUI(viewModel = CustomerViewModel(CustomerUseCase(CustomerRepository())), navController = navController, modifier = modifier, pageName) }
 
         composable(
             route = Bookmark.MainHome.name + "/{name},{phone}",
