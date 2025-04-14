@@ -11,6 +11,9 @@ import com.compose.hangf_aos.View.Screens.Customer.Confirmed.ConfirmedUI
 import com.compose.hangf_aos.View.Screens.Customer.Info.InfoUI
 import com.compose.hangf_aos.View.Screens.Customer.Reservation.ReservationUI
 import com.compose.hangf_aos.View.Screens.MainHome
+import com.compose.hangf_aos.View.Screens.StoreOwner.Home.StoreOwnerHomeUI
+import com.compose.hangf_aos.View.Screens.StoreOwner.Home.StoreOwnerMenuEditDialog
+import com.compose.hangf_aos.View.Screens.StoreOwner.Home.StoreOwnerMenuScreen
 
 @Composable
 fun HangFNavigation(pageName: String, modifier: Modifier = Modifier) {
@@ -48,5 +51,32 @@ fun HangFNavigation(pageName: String, modifier: Modifier = Modifier) {
 
         composable(route = Bookmark.CustomerConfirmed.name)
         { ConfirmedUI(navController = navController, modifier = modifier, pageName = "확정화면") }
+
+        composable(route = Bookmark.StoreOwnerHome.name) {
+            StoreOwnerHomeUI(navController = navController)
+        }
+
+        composable(route = Bookmark.StoreOwnerMenu.name) {
+            StoreOwnerMenuScreen(navController = navController)
+        }
+
+        composable(
+            route = "StoreOwnerMenuEditDialog/{title}/{desc}/{price}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("desc") { type = NavType.StringType },
+                navArgument("price") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val desc = backStackEntry.arguments?.getString("desc") ?: ""
+            val price = backStackEntry.arguments?.getString("price") ?: ""
+            StoreOwnerMenuEditDialog(
+                nameInit = title,
+                descInit = desc,
+                priceInit = price,
+                onDismiss = { navController.popBackStack() }
+            )
+        }
     }
 }

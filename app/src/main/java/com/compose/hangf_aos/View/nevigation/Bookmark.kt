@@ -7,7 +7,7 @@ enum class Bookmark {
     CustomerReservation,
     CustomerConfirmed,
     CustomerLookup,
-    StoreOwnerInfo,
-    StoreOwnerReservation,
+    StoreOwnerHome,
     StoreOwnerMenu,
+    StoreOwnerMenuEditDialog,
 }

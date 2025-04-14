@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -46,6 +47,18 @@ fun  InfoUI(navController: NavController, modifier: Modifier = Modifier, pageNam
         topBar = {
             TopAppBar(
                 title = { Text(text = "${pageName}") },
+                actions = {
+                    IconButton(onClick = {
+                        navController.navigate(Bookmark.StoreOwnerHome.name)
+                    } ) {
+                        Icon(
+                            Icons.Filled.AccountCircle,
+                            contentDescription = "관리자 로그인",
+                            tint = Color.Black,
+                            modifier = modifier.padding(end = 8.dp)
+                        )
+                    }
+                }
 //                navigationIcon = { // 뒤로가기 버튼 - 유저 정보 변경 활성화시 주석 해제
 //                    IconButton(onClick = {
 ////                        navController.navigate(Bookmark.MainHome.name)
