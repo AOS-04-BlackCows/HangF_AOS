@@ -39,12 +39,14 @@ fun MainHome(navController: NavController, modifier: Modifier = Modifier, pageNa
             TopAppBar(
                 title = { Text(text = "${pageName}") },
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        Toast.makeText(context, "관리자 아이콘 클릭됨", Toast.LENGTH_SHORT).show()
+                    }) {
                         Icon(
-                            Icons.Filled.AccountBox,
+                            Icons.Filled.AccountCircle,
                             contentDescription = "관리자 로그인",
-                            tint = Color.White,
-                            modifier = modifier.padding(start = 8.dp),
+                            tint = Color.Black ,
+                            modifier = modifier.padding(end = 8.dp)
                         )
                     }
                 }

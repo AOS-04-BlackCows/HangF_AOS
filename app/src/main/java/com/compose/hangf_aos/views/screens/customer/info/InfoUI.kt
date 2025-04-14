@@ -10,6 +10,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+
+//import androidx.compose.material.icons.Icons
+//import androidx.compose.material.icons.automirrored.filled.ArrowBack
+//import androidx.compose.material.icons.filled.AccountCircle
+
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,6 +43,7 @@ import com.compose.hangf_aos.views.nevigation.Bookmark
 import com.compose.hangf_aos.data.model.Customer
 import com.compose.hangf_aos.views.screens.customer.CustomerViewModel
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavController, modifier: Modifier = Modifier, pageName: String) {
@@ -54,6 +60,18 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
         topBar = {
             TopAppBar(
                 title = { Text(text = "${pageName}") },
+                actions = {
+                    IconButton(onClick = {
+                        navController.navigate(Bookmark.StoreOwnerHome.name)
+                    } ) {
+                        Icon(
+                            Icons.Filled.AccountCircle,
+                            contentDescription = "관리자 로그인",
+                            tint = Color.Black,
+                            modifier = modifier.padding(end = 8.dp)
+                        )
+                    }
+                }
 //                navigationIcon = { // 뒤로가기 버튼 - 유저 정보 변경 활성화시 주석 해제
 //                    IconButton(onClick = {
 ////                        navController.navigate(Bookmark.MainHome.name)
