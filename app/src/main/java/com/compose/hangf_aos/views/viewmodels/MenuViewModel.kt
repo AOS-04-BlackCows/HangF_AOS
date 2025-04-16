@@ -1,9 +1,11 @@
-package com.compose.hangf_aos.views.screens.menu
+package com.compose.hangf_aos.views.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.hangf_aos.data.model.Menu
 import com.compose.hangf_aos.domain.usecase.MenuUseCase
+import com.compose.hangf_aos.views.intents.MenuIntent
+import com.compose.hangf_aos.views.states.MenuState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

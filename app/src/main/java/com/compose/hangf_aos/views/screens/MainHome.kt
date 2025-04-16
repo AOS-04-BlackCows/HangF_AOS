@@ -40,6 +40,7 @@ fun MainHome(navController: NavController, modifier: Modifier = Modifier, pageNa
                 title = { Text(text = "${pageName}") },
                 actions = {
                     IconButton(onClick = {
+                        navController.navigate(Bookmark.StoreOwnerHome.name)
                         Toast.makeText(context, "관리자 아이콘 클릭됨", Toast.LENGTH_SHORT).show()
                     }) {
                         Icon(

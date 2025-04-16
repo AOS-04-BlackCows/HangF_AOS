@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.views.screens.menu
+package com.compose.hangf_aos.views.states
 
 import com.compose.hangf_aos.data.model.Menu
 

@@ -1,9 +1,11 @@
-package com.compose.hangf_aos.views.screens.customer
+package com.compose.hangf_aos.views.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.hangf_aos.data.model.Customer
 import com.compose.hangf_aos.domain.usecase.CustomerUseCase
+import com.compose.hangf_aos.views.intents.CustomerIntent
+import com.compose.hangf_aos.views.states.CustomerState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

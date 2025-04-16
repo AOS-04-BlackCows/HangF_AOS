@@ -1,9 +1,11 @@
-package com.compose.hangf_aos.views.screens.owner
+package com.compose.hangf_aos.views.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.hangf_aos.data.model.Owner
 import com.compose.hangf_aos.domain.usecase.OwnerUseCase
+import com.compose.hangf_aos.views.intents.OwnerIntent
+import com.compose.hangf_aos.views.states.OwnerState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
