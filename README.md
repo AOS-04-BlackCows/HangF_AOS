@@ -10,9 +10,9 @@
 ## ⚙ 기술 스택
 - **네트워크 통신**: Retrofit
 - **UI 구성**: Jetpack Compose
-- **서버 연동**: Ktor
+- **서버 연동**: FireBase ( Ktor - 보류 )
 - **이미지 로딩**: Coil
-- **멀티플랫폼 지원**: Kotlin Multiplatform
+- **멀티플랫폼 지원**: Kotlin Multiplatform - 보류
 
 ## 🎯 주요 기능
 
