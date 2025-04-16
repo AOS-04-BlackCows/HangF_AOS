@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 
 //import androidx.compose.material.icons.Icons
 //import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -18,6 +20,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -37,11 +42,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.compose.hangf_aos.views.screens.customer.CustomerIntent
-import com.compose.hangf_aos.views.screens.customer.CustomerState
+import com.compose.hangf_aos.views.intents.CustomerIntent
+import com.compose.hangf_aos.views.states.CustomerState
 import com.compose.hangf_aos.views.nevigation.Bookmark
 import com.compose.hangf_aos.data.model.Customer
-import com.compose.hangf_aos.views.screens.customer.CustomerViewModel
+import com.compose.hangf_aos.views.viewmodels.CustomerViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)

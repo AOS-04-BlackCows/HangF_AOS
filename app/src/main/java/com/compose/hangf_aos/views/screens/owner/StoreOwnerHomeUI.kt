@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.View.Screens.StoreOwner.Home
+package com.compose.hangf_aos.views.screens.owner
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke

@@ -12,10 +12,9 @@ import com.compose.hangf_aos.views.screens.customer.confirmed.ConfirmedUI
 import com.compose.hangf_aos.views.screens.customer.info.InfoUI
 import com.compose.hangf_aos.views.screens.customer.reservation.ReservationUI
 import com.compose.hangf_aos.views.screens.MainHome
-
-//import com.compose.hangf_aos.View.Screens.StoreOwner.Home.StoreOwnerHomeUI
-//import com.compose.hangf_aos.View.Screens.StoreOwner.Home.StoreOwnerMenuEditDialog
-//import com.compose.hangf_aos.View.Screens.StoreOwner.Home.StoreOwnerMenuScreen
+import com.compose.hangf_aos.views.screens.owner.StoreOwnerHomeUI
+import com.compose.hangf_aos.views.screens.owner.StoreOwnerMenuEditDialog
+import com.compose.hangf_aos.views.screens.owner.StoreOwnerMenuScreen
 
 @Composable
 fun HangFNavigation(pageName: String, modifier: Modifier = Modifier) {

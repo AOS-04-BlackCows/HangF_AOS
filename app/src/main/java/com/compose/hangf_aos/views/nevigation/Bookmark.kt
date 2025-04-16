@@ -9,5 +9,7 @@ enum class Bookmark {
     CustomerLookup, // 조회
     StoreOwnerInfo, // 가게 정보 입력
     StoreOwnerReservation, // 예약 현황
-    StoreOwnerMenu, //메뉴
+    StoreOwnerHome, // 점주 메인 홈
+    StoreOwnerMenu, // 점주 메뉴
+    StoreOwnerMenuEditDialog, // 점주 다이얼 로그
 }

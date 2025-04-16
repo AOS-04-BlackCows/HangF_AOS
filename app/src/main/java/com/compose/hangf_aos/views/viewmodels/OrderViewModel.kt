@@ -1,9 +1,11 @@
-package com.compose.hangf_aos.views.screens.order
+package com.compose.hangf_aos.views.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.hangf_aos.data.model.Order
 import com.compose.hangf_aos.domain.usecase.OrderUseCase
+import com.compose.hangf_aos.views.intents.OrderIntent
+import com.compose.hangf_aos.views.states.OrderState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +19,7 @@ class OrderViewModel @Inject constructor(
     private val _state = MutableStateFlow<OrderState>(OrderState.Idle)
     val state: StateFlow<OrderState> = _state
 
-    fun handleIntent(intent: OrderIntent , order: Order?) {
+    fun handleIntent(intent: OrderIntent, order: Order?) {
         when (intent) {
             is OrderIntent.AddOrder -> addOrder(intent.order)
             is OrderIntent.GetOrder -> getOrder(intent.orderId)

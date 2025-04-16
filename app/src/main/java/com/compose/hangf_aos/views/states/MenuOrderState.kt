@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.views.screens.menuOrder
+package com.compose.hangf_aos.views.states
 
 sealed class MenuOrderState {
     data object Idle : MenuOrderState()

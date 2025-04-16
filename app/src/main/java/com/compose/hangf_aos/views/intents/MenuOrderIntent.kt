@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.views.screens.menuOrder
+package com.compose.hangf_aos.views.intents
 
 import com.compose.hangf_aos.data.model.MenuOrder
 

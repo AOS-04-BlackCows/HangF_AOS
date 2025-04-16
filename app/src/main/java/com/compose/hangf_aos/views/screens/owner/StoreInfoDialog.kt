@@ -1,4 +1,4 @@
-package com.compose.hangf_aos.View.Screens.StoreOwner.Home
+package com.compose.hangf_aos.views.screens.owner
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

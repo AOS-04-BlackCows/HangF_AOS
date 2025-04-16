@@ -1,9 +1,11 @@
-package com.compose.hangf_aos.views.screens.menuOrder
+package com.compose.hangf_aos.views.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.hangf_aos.data.model.MenuOrder
 import com.compose.hangf_aos.domain.usecase.MenuOrderUseCase
+import com.compose.hangf_aos.views.intents.MenuOrderIntent
+import com.compose.hangf_aos.views.states.MenuOrderState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
