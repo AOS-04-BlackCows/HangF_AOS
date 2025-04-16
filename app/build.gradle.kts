@@ -86,7 +86,10 @@ dependencies {
     // MariaDB JDBC 드라이버 추가 = fail...삭제 예정
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.0")
 
-    // Retofit 추가
+    // DataStore 추가
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
+
+    // Retrofit 추가
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 

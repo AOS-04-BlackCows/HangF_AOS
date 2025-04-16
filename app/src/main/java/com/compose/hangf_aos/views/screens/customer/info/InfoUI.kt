@@ -5,18 +5,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-
-//import androidx.compose.material.icons.Icons
-//import androidx.compose.material.icons.automirrored.filled.ArrowBack
-//import androidx.compose.material.icons.filled.AccountCircle
-
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -135,26 +129,26 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                     label = { Text("전화번호") }
                 )
 
-                //DB 테스트 코드 시작점
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = {
-                        val customer = Customer(name, phone)
-                        viewModel.handleIntent(CustomerIntent.AddCustomer(customer))
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("고객 추가")
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = {
-                        viewModel.handleIntent(CustomerIntent.GetAllCustomers)
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("고객 조회")
-                }
+//                //DB 테스트 코드 시작점
+//                Spacer(modifier = Modifier.height(16.dp))
+//                Button(
+//                    onClick = {
+//                        val customer = Customer(name, phone)
+//                        viewModel.handleIntent(CustomerIntent.AddCustomer(customer))
+//                    },
+//                    modifier = Modifier.fillMaxWidth()
+//                ) {
+//                    Text("고객 추가")
+//                }
+//                Spacer(modifier = Modifier.height(8.dp))
+//                Button(
+//                    onClick = {
+//                        viewModel.handleIntent(CustomerIntent.GetAllCustomers)
+//                    },
+//                    modifier = Modifier.fillMaxWidth()
+//                ) {
+//                    Text("고객 조회")
+//                }
 
                 when (state) {
                     is CustomerState.Loading -> CircularProgressIndicator()
@@ -164,7 +158,7 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                             Text("이름: ${it.name}, 전화번호: ${it.phone}")
                         } ?: Text("고객 정보 없음")
                     }
-                    is CustomerState.ListSuccess -> {
+                    is CustomerState.ListSuccess -> {// DB에서 고객 정보 조회
                         val customers = (state as CustomerState.ListSuccess).customers
                         customers.forEach {
                             Text("이름: ${it.name}, 전화번호: ${it.phone}")
@@ -177,7 +171,11 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
 
                 Spacer(modifier = modifier.height(10.dp))
                 if (name.isNotEmpty()&&phone.isNotEmpty()){
-                    Button(onClick = { navController.navigate(Bookmark.MainHome.name+"/$name,$phone") }) {
+                    Button(onClick = {
+                        val customer = Customer(name, phone)
+                        viewModel.handleIntent(CustomerIntent.AddCustomer(customer))
+                        navController.navigate(Bookmark.MainHome.name+"/$name,$phone")
+                    }) {
                         Text(text = "홈으로")
                     }
                 }
