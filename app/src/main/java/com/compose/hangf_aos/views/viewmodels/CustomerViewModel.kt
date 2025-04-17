@@ -27,6 +27,7 @@ class CustomerViewModel @Inject constructor(
             is CustomerIntent.GetAllCustomers -> getAllCustomers()
             is CustomerIntent.UpdateCustomer -> updateCustomer(intent.customer)
             is CustomerIntent.DeleteCustomer -> deleteCustomer(intent.phoneNumber)
+            is CustomerIntent.LoadLocalCustomer -> loadLocalCustomer()
             else -> {}
         }
     }
@@ -51,6 +52,17 @@ class CustomerViewModel @Inject constructor(
                 onSuccess = { CustomerState.Success(it) },
                 onFailure = { CustomerState.Error(it.message ?: "고객 조회 실패") }
             )
+        }
+    }
+
+    private fun loadLocalCustomer() {
+        viewModelScope.launch {
+            val result = customerUseCase.getLocalCustomer()
+            _state.value = if (result.isSuccess) {
+                result.getOrNull()?.let { CustomerState.Success(it) } ?: CustomerState.Idle
+            } else {
+                CustomerState.Error("로컬 고객 정보 불러오기 실패")
+            }
         }
     }
 

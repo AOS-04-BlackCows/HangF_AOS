@@ -53,8 +53,6 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
 
     val state by viewModel.state.collectAsState()
 
-
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -158,12 +156,12 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                             Text("이름: ${it.name}, 전화번호: ${it.phone}")
                         } ?: Text("고객 정보 없음")
                     }
-                    is CustomerState.ListSuccess -> {// DB에서 고객 정보 조회
-                        val customers = (state as CustomerState.ListSuccess).customers
-                        customers.forEach {
-                            Text("이름: ${it.name}, 전화번호: ${it.phone}")
-                        }
-                    }
+//                    is CustomerState.ListSuccess -> {// DB에서 고객 정보 조회
+//                        val customers = (state as CustomerState.ListSuccess).customers
+//                        customers.forEach {
+//                            Text("이름: ${it.name}, 전화번호: ${it.phone}")
+//                        }
+//                    }
                     is CustomerState.Error -> Toast.makeText(context, (state as CustomerState.Error).message, Toast.LENGTH_SHORT).show()
                     else -> {}
                 }
@@ -174,7 +172,7 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                     Button(onClick = {
                         val customer = Customer(name, phone)
                         viewModel.handleIntent(CustomerIntent.AddCustomer(customer))
-                        navController.navigate(Bookmark.MainHome.name+"/$name,$phone")
+                        navController.navigate(Bookmark.MainHome.name)
                     }) {
                         Text(text = "홈으로")
                     }

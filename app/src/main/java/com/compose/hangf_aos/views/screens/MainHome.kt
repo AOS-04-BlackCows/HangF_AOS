@@ -24,16 +24,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.compose.hangf_aos.R
 import com.compose.hangf_aos.views.nevigation.Bookmark
+import com.compose.hangf_aos.views.viewmodels.CustomerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainHome(navController: NavController, modifier: Modifier = Modifier, pageName: String, name: String?, phone: String?) {
+fun MainHome( viewModel: CustomerViewModel = hiltViewModel(),
+              navController: NavController,
+              modifier: Modifier = Modifier,
+              pageName: String,
+              customerName: String?,
+              customerPhone: String?
+              ) {
     val context = LocalContext.current
+
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -87,7 +97,7 @@ fun MainHome(navController: NavController, modifier: Modifier = Modifier, pageNa
         )
         Spacer(modifier = modifier.height(20.dp))
 
-        Text(text = "이름 : $name  전화번호 : $phone",color = Color.White)
+        Text(text = "이름 : $customerName  전화번호 : $customerPhone",color = Color.White)
         Spacer(modifier = modifier.height(20.dp))
 
         Button(onClick = { navController.navigate(Bookmark.CustomerReservation.name) }) {
