@@ -18,6 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,15 +36,18 @@ import com.compose.hangf_aos.views.viewmodels.CustomerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainHome( viewModel: CustomerViewModel = hiltViewModel(),
-              navController: NavController,
-              modifier: Modifier = Modifier,
-              pageName: String,
-              customerName: String?,
-              customerPhone: String?
-              ) {
+fun MainHome(
+    viewModel: CustomerViewModel = hiltViewModel(),
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    pageName: String,
+    customerName: String?,
+    customerPhone: String?
+) {
     val context = LocalContext.current
 
+    val showStoreDialog = remember { mutableStateOf(false) }
+    val showMenuDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -56,7 +61,7 @@ fun MainHome( viewModel: CustomerViewModel = hiltViewModel(),
                         Icon(
                             Icons.Filled.AccountCircle,
                             contentDescription = "관리자 로그인",
-                            tint = Color.Black ,
+                            tint = Color.Black,
                             modifier = modifier.padding(end = 8.dp)
                         )
                     }
@@ -64,13 +69,13 @@ fun MainHome( viewModel: CustomerViewModel = hiltViewModel(),
             )
         },
         content = {
-            Column (
+            Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = modifier
                     .fillMaxSize()
                     .padding(it)
-            ){
+            ) {
 
             }
         }
@@ -97,7 +102,7 @@ fun MainHome( viewModel: CustomerViewModel = hiltViewModel(),
         )
         Spacer(modifier = modifier.height(20.dp))
 
-        Text(text = "이름 : $customerName  전화번호 : $customerPhone",color = Color.White)
+        Text(text = "이름 : $customerName  전화번호 : $customerPhone", color = Color.White)
         Spacer(modifier = modifier.height(20.dp))
 
         Button(onClick = { navController.navigate(Bookmark.CustomerReservation.name) }) {
@@ -109,5 +114,25 @@ fun MainHome( viewModel: CustomerViewModel = hiltViewModel(),
         Button(onClick = { Toast.makeText(context, "조회 화면", Toast.LENGTH_SHORT).show() }) {
             Text(text = "조회 화면")
         }
+        Button(onClick = { showStoreDialog.value = true }) {
+            Text(text = "스토어 정보 저장")
+        }
+        Button(onClick = { showMenuDialog.value = true }) {
+            Text(text = "메뉴 정보 저장")
+        }
+    }
+    if (showStoreDialog.value) {
+        T_StoreInfoDialog(
+            onDismiss = {
+                showStoreDialog.value = false
+            }
+        )
+    }
+    if (showMenuDialog.value) {
+        T_MenuEditDialog(
+            onDismiss = {
+                showMenuDialog.value = false
+            }
+        )
     }
 }

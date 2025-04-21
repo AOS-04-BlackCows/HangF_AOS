@@ -100,6 +100,9 @@ dependencies {
     // Hilt 추가
     implementation ("com.google.dagger:hilt-android:2.56.1")
     kapt ("com.google.dagger:hilt-compiler:2.56.1")
+
+    // 아이콘 추가
+    implementation("androidx.compose.material:material-icons-extended")
 }
 
 kapt {
