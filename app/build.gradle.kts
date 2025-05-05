@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
 
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -16,6 +18,12 @@ android {
     namespace = "com.compose.hangf_aos"
     compileSdk = 35
 
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.compose.hangf_aos"
         minSdk = 24
@@ -27,6 +35,22 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+            "String",
+            "KAKAO_NATIVE_APP_KEY",
+            properties.getProperty("kakao_native_app_key")
+        )
+        buildConfigField(
+            "String",
+            "KAKAO_REST_API_KEY",
+            properties.getProperty("kakao_rest_api_key")
+        )
+        buildConfigField(
+            "String",
+            "SEARCH_API_BASE",
+            properties.getProperty("search_api_base")
+        )
     }
 
     buildTypes {
@@ -92,6 +116,11 @@ dependencies {
     // Retrofit 추가
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // okHttp 추가
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 
     // Firebase 추가
     implementation(platform("com.google.firebase:firebase-bom:33.12.0"))

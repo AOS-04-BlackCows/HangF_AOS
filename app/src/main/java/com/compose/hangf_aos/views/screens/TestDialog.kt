@@ -51,9 +51,11 @@ import com.compose.hangf_aos.R
 import com.compose.hangf_aos.data.model.DayOnTime
 import com.compose.hangf_aos.data.model.Menu
 import com.compose.hangf_aos.data.model.Store
+import com.compose.hangf_aos.views.intents.AddressIntent
 import com.compose.hangf_aos.views.intents.MenuIntent
 import com.compose.hangf_aos.views.intents.StoreIntent
 import com.compose.hangf_aos.views.states.StoreState
+import com.compose.hangf_aos.views.viewmodels.AddressViewModel
 import com.compose.hangf_aos.views.viewmodels.MenuViewModel
 import com.compose.hangf_aos.views.viewmodels.StoreViewModel
 import java.util.Calendar
@@ -385,6 +387,47 @@ fun T_MenuEditDialog(
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
+            }
+        }
+    )
+}
+
+@Composable
+fun T_AddressDialog(
+    modifier: Modifier = Modifier,
+    onDismiss: () -> Unit
+) {
+    val viewModel: AddressViewModel = hiltViewModel()
+    var address by remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = { onDismiss() }) {
+                Text("확인")
+            }
+        },
+        title = null,
+        text = {
+            Column(
+                modifier = modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Box (
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .border(1.dp, Color.LightGray, CircleShape)
+                        .padding(12.dp)
+                ){
+                    Row (
+                        modifier = Modifier,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ){
+                        TextField(value = address, onValueChange = { address = it })
+                        TextButton(onClick = { viewModel.handleIntent(AddressIntent.SearchAddress(address)) }) {
+                            Text("검색")
+                        }
+                    }
+                }
             }
         }
     )

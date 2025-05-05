@@ -1,8 +1,11 @@
 package com.compose.hangf_aos.views.screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -102,23 +105,26 @@ fun MainHome(
         )
         Spacer(modifier = modifier.height(20.dp))
 
-        Text(text = "이름 : $customerName  전화번호 : $customerPhone", color = Color.White)
+//        Text(text = "이름 : $customerName  전화번호 : $customerPhone", color = Color.White)// 테스트 코드
+        Log.d("MainHome", "이름 : $customerName  전화번호 : $customerPhone")
         Spacer(modifier = modifier.height(20.dp))
 
         Button(onClick = { navController.navigate(Bookmark.CustomerReservation.name) }) {
             Text(text = "예약 화면")
         }
-        Button(onClick = { navController.navigate(Bookmark.CustomerConfirmed.name) }) {
-            Text(text = "예약 확정 화면")
-        }
         Button(onClick = { Toast.makeText(context, "조회 화면", Toast.LENGTH_SHORT).show() }) {
             Text(text = "조회 화면")
         }
-        Button(onClick = { showStoreDialog.value = true }) {
-            Text(text = "스토어 정보 저장")
-        }
-        Button(onClick = { showMenuDialog.value = true }) {
-            Text(text = "메뉴 정보 저장")
+        Text(text = "테스트용 버튼" , color = Color.White)
+        Box {
+            Row {
+                Button(onClick = { showStoreDialog.value = true }) {
+                    Text(text = "스토어 정보 저장")
+                }
+                Button(onClick = { showMenuDialog.value = true }) {
+                    Text(text = "메뉴 정보 저장")
+                }
+            }
         }
     }
     if (showStoreDialog.value) {
