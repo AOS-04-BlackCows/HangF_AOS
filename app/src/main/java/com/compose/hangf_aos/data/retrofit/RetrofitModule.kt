@@ -22,6 +22,12 @@ object RetrofitModule {
             .setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor { chain ->
+                val newRequest = chain.request().newBuilder()
+                    .addHeader("Authorization", "KakaoAK ${BuildConfig.KAKAO_REST_API_KEY}")
+                    .build()
+                chain.proceed(newRequest)
+            }
             .build()
     }
 

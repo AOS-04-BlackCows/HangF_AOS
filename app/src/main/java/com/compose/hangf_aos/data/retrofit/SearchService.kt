@@ -7,7 +7,6 @@ import retrofit2.http.Query
 
 interface SearchService {
     @GET("v2/local/search/address.json")
-    @Headers("Authorization: KakaoAK ${BuildConfig.KAKAO_REST_API_KEY}")
 
     suspend fun getSearch(
         @Query("query") query : String,

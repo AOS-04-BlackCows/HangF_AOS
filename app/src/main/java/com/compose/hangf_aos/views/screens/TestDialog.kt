@@ -394,14 +394,15 @@ fun T_MenuEditDialog(
 @Composable
 fun T_AddressDialog(
     modifier: Modifier = Modifier,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onAddressSelected: (String) -> Unit // 주소 선택 콜백 추가
 ) {
     val viewModel: AddressViewModel = hiltViewModel()
     var address by remember { mutableStateOf("") }
+    val searchResults by viewModel.regionSearch.collectAsState()
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-
             TextButton(onClick = { onDismiss() }) {
                 Text("닫기")
             }
@@ -418,12 +419,19 @@ fun T_AddressDialog(
                         .border(1.dp, Color.LightGray, CircleShape)
                         .padding(12.dp)
                 ){
-
                     TextField(value = address, onValueChange = { address = it })
-
                 }
                 TextButton(onClick = { viewModel.getRegionSearch(address) }) {
                     Text("검색")
+                }
+                // 검색 결과 리스트 표시
+                searchResults?.documents?.forEach { result ->
+                    val addr = result.address?.addressName?:"알 수 없는 주소"
+                    TextButton(onClick = {
+                        onAddressSelected(addr) // 주소 선택 콜백 호출
+                    }) {
+                        Text(text = addr)
+                    }
                 }
             }
         }

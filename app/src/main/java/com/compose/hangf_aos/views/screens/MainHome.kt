@@ -56,6 +56,8 @@ fun MainHome(
     val showMenuDialog = remember { mutableStateOf(false) }
     val showAddressDialog = remember { mutableStateOf(false) }
 
+    val selectedAddress = remember { mutableStateOf("") } // 선택된 주소 상태
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -142,7 +144,7 @@ fun MainHome(
                     Button(onClick = { showAddressDialog.value = true }) {
                         Text(text = "주소 검색")
                     }
-                    Text(text = "주소 :", color = Color.White)
+                    Text(text = "주소: ${selectedAddress.value}", color = Color.White)
                 }
             }
         }
@@ -163,8 +165,10 @@ fun MainHome(
     }
     if (showAddressDialog.value){
         T_AddressDialog(
-            onDismiss = {
-                showAddressDialog.value = false
+            onDismiss = { showAddressDialog.value = false },
+            onAddressSelected = { address ->
+                selectedAddress.value = address // 주소 선택 시 상태 변경
+                showAddressDialog.value = false // 다이얼로그 닫기
             }
         )
     }
