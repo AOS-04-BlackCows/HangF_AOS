@@ -22,6 +22,7 @@ import com.compose.hangf_aos.views.screens.MainHome
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerHomeUI
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerMenuEditDialog
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerMenuScreen
+import com.compose.hangf_aos.views.viewmodels.SharedOrderViewModel
 
 @Composable
 fun HangFNavigation(modifier: Modifier = Modifier) {
@@ -47,7 +48,6 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
 
     // 아직 고객 정보 로딩 중이면 아무것도 표시하지 않음 (또는 로딩 화면 표시 가능)
     if (startDestination == null) return
-
 
     //네비게이션의 컨테이너 역활을 함
     NavHost(
@@ -78,10 +78,17 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
         }
 
         composable(route = Bookmark.CustomerReservation.name)
-        { ReservationUI(navController = navController, modifier = modifier, pageName = "예약화면") }
+        {
+            val parentEntry = remember(it) { it }
+            val sharedOrderViewModel: SharedOrderViewModel = hiltViewModel(parentEntry)
+            ReservationUI(navController = navController, modifier = modifier, pageName = "예약화면")
+        }
 
         composable(route = Bookmark.CustomerConfirmed.name)
-        { ConfirmedUI(navController = navController, modifier = modifier, pageName = "확정화면") }
+        {
+
+            ConfirmedUI(navController = navController, modifier = modifier, pageName = "장바구니")
+        }
 
         composable(route = Bookmark.StoreOwnerHome.name) {
             StoreOwnerHomeUI(navController = navController)

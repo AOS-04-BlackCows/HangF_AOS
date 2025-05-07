@@ -66,6 +66,7 @@ import com.compose.hangf_aos.views.states.StoreState
 import com.compose.hangf_aos.views.viewmodels.MenuOrderViewModel
 import com.compose.hangf_aos.views.viewmodels.MenuViewModel
 import com.compose.hangf_aos.views.viewmodels.OrderViewModel
+import com.compose.hangf_aos.views.viewmodels.SharedOrderViewModel
 import com.compose.hangf_aos.views.viewmodels.StoreViewModel
 import kotlinx.coroutines.launch
 
@@ -74,7 +75,6 @@ import kotlinx.coroutines.launch
 fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, pageName: String) {
     val isExpanded = remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
     val (clicks, setClicks) = remember { mutableStateOf(0) }
     val selectedMenus = remember { mutableStateOf(mutableMapOf<String, Int>()) } // menuId -> count
 
@@ -87,12 +87,18 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
     val menuState by menuViewModel.state.collectAsState()
     val storeState by storeViewModel.state.collectAsState()
 
+    val sharedOrderViewModel: SharedOrderViewModel = hiltViewModel()
+
     LaunchedEffect(Unit) {
         menuViewModel.handleIntent(MenuIntent.GetMenusByStore(storeId = "힐링쿡 용호동점")) //매장 ID 값
         storeViewModel.handleIntent(StoreIntent.GetStore(storeId = "힐링쿡 용호동점")) //매장 ID 값
     }
 
     val menus = (menuState as? MenuState.ListSuccess)?.menus ?: emptyList()
+
+    val selectedMenuObjects = menus.associateWith { menu ->
+        selectedMenus.value[menu.id] ?: 0
+    }.filterValues { it > 0 }
 
     val store = (storeState as? StoreState.Success)?.store
     val storeData = store?.let {
@@ -116,7 +122,7 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
                 navigationIcon = { // 뒤로가기 버튼 - 유저 정보 변경 활성화시 주석 해제
                     IconButton(onClick = {
                         navController.navigate(Bookmark.MainHome.name)
-                        Toast.makeText(context, "뒤로가기", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, "뒤로가기", Toast.LENGTH_SHORT).show()
                     }) {//뒤로가기 버튼
                         Icon(
                             Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -154,6 +160,12 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
             Button(
                 onClick = {
                     if (clicks > 0) {
+                        Log.d("Menus_selectedMenus", selectedMenus.value.toString())
+                        Log.d("Menus_selectedMenuObjects", selectedMenuObjects.toString())
+                        Log.d("Menus_totalPrice", totalPrice.toString())
+
+                        sharedOrderViewModel.setSelectedMenus(selectedMenuObjects)
+                        sharedOrderViewModel.setTotalPrice(totalPrice)
                         navController.navigate(Bookmark.CustomerConfirmed.name)
                     }
                 },
