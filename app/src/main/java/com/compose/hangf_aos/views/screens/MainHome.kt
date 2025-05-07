@@ -2,6 +2,8 @@ package com.compose.hangf_aos.views.screens
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Button
@@ -51,6 +54,7 @@ fun MainHome(
 
     val showStoreDialog = remember { mutableStateOf(false) }
     val showMenuDialog = remember { mutableStateOf(false) }
+    val showAddressDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -116,13 +120,29 @@ fun MainHome(
             Text(text = "조회 화면")
         }
         Text(text = "테스트용 버튼" , color = Color.White)
-        Box {
-            Row {
-                Button(onClick = { showStoreDialog.value = true }) {
-                    Text(text = "스토어 정보 저장")
+        Box (
+            modifier = modifier
+                .fillMaxWidth()
+                .border(
+                    border = BorderStroke(0.5.dp, Color(0xFF989898)),
+                    shape = RoundedCornerShape(5.dp)
+                )
+                .padding(12.dp)
+        ){
+            Column {
+                Row {
+                    Button(onClick = { showStoreDialog.value = true }) {
+                        Text(text = "스토어 정보 저장")
+                    }
+                    Button(onClick = { showMenuDialog.value = true }) {
+                        Text(text = "메뉴 정보 저장")
+                    }
                 }
-                Button(onClick = { showMenuDialog.value = true }) {
-                    Text(text = "메뉴 정보 저장")
+                Row {
+                    Button(onClick = { showAddressDialog.value = true }) {
+                        Text(text = "주소 검색")
+                    }
+                    Text(text = "주소 :", color = Color.White)
                 }
             }
         }
@@ -138,6 +158,13 @@ fun MainHome(
         T_MenuEditDialog(
             onDismiss = {
                 showMenuDialog.value = false
+            }
+        )
+    }
+    if (showAddressDialog.value){
+        T_AddressDialog(
+            onDismiss = {
+                showAddressDialog.value = false
             }
         )
     }

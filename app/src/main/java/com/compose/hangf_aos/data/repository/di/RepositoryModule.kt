@@ -5,17 +5,20 @@ import com.compose.hangf_aos.data.repository.repoImpl.MenuOrderRepositoryImpl
 import com.compose.hangf_aos.data.repository.repoImpl.MenuRepositoryImpl
 import com.compose.hangf_aos.data.repository.repoImpl.OrderRepositoryImpl
 import com.compose.hangf_aos.data.repository.repoImpl.OwnerRepositoryImpl
+import com.compose.hangf_aos.data.repository.repoImpl.SearchRepositoryImpl
 import com.compose.hangf_aos.data.repository.repoImpl.StoreRepositoryImpl
 import com.compose.hangf_aos.data.repository.repoInterfaces.CustomerRepository
 import com.compose.hangf_aos.data.repository.repoInterfaces.MenuOrderRepository
 import com.compose.hangf_aos.data.repository.repoInterfaces.MenuRepository
 import com.compose.hangf_aos.data.repository.repoInterfaces.OrderRepository
 import com.compose.hangf_aos.data.repository.repoInterfaces.OwnerRepository
+import com.compose.hangf_aos.data.repository.repoInterfaces.SearchRepository
 import com.compose.hangf_aos.data.repository.repoInterfaces.StoreRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -50,4 +53,11 @@ abstract class RepositoryModule {
     abstract fun bindStoreRepository(
         impl: StoreRepositoryImpl
     ): StoreRepository
+
+    //주소 검색 API
+    @Binds
+    @Singleton
+    abstract fun bindSearchRepository(
+        impl: SearchRepositoryImpl
+    ): SearchRepository
 }

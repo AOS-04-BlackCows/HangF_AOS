@@ -51,7 +51,6 @@ import com.compose.hangf_aos.R
 import com.compose.hangf_aos.data.model.DayOnTime
 import com.compose.hangf_aos.data.model.Menu
 import com.compose.hangf_aos.data.model.Store
-import com.compose.hangf_aos.views.intents.AddressIntent
 import com.compose.hangf_aos.views.intents.MenuIntent
 import com.compose.hangf_aos.views.intents.StoreIntent
 import com.compose.hangf_aos.views.states.StoreState
@@ -402,8 +401,9 @@ fun T_AddressDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
+
             TextButton(onClick = { onDismiss() }) {
-                Text("확인")
+                Text("닫기")
             }
         },
         title = null,
@@ -418,15 +418,12 @@ fun T_AddressDialog(
                         .border(1.dp, Color.LightGray, CircleShape)
                         .padding(12.dp)
                 ){
-                    Row (
-                        modifier = Modifier,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ){
-                        TextField(value = address, onValueChange = { address = it })
-                        TextButton(onClick = { viewModel.handleIntent(AddressIntent.SearchAddress(address)) }) {
-                            Text("검색")
-                        }
-                    }
+
+                    TextField(value = address, onValueChange = { address = it })
+
+                }
+                TextButton(onClick = { viewModel.getRegionSearch(address) }) {
+                    Text("검색")
                 }
             }
         }
