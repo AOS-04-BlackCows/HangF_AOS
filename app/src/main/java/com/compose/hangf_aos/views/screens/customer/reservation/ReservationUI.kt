@@ -66,8 +66,8 @@ import com.compose.hangf_aos.views.states.StoreState
 import com.compose.hangf_aos.views.viewmodels.MenuOrderViewModel
 import com.compose.hangf_aos.views.viewmodels.MenuViewModel
 import com.compose.hangf_aos.views.viewmodels.OrderViewModel
-import com.compose.hangf_aos.views.viewmodels.SharedOrderViewModel
 import com.compose.hangf_aos.views.viewmodels.StoreViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,8 +86,6 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
 
     val menuState by menuViewModel.state.collectAsState()
     val storeState by storeViewModel.state.collectAsState()
-
-    val sharedOrderViewModel: SharedOrderViewModel = hiltViewModel()
 
     LaunchedEffect(Unit) {
         menuViewModel.handleIntent(MenuIntent.GetMenusByStore(storeId = "힐링쿡 용호동점")) //매장 ID 값
@@ -160,13 +158,18 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
             Button(
                 onClick = {
                     if (clicks > 0) {
-                        Log.d("Menus_selectedMenus", selectedMenus.value.toString())
-                        Log.d("Menus_selectedMenuObjects", selectedMenuObjects.toString())
-                        Log.d("Menus_totalPrice", totalPrice.toString())
+                        // Map<Menu, Int> 형태로 변환
+                        val selectedMenuList =
+                            selectedMenuObjects.entries.map { it.key to it.value }
 
-                        sharedOrderViewModel.setSelectedMenus(selectedMenuObjects)
-                        sharedOrderViewModel.setTotalPrice(totalPrice)
-                        navController.navigate(Bookmark.CustomerConfirmed.name)
+                        // 현재 BackStackEntry의 savedStateHandle에 데이터 저장
+                        navController.currentBackStackEntry?.savedStateHandle?.set(
+                            "menus",
+                            selectedMenuList
+                        )
+
+                        // totalPrice만 URL 파라미터로 넘김
+                        navController.navigate(Bookmark.CustomerConfirmed.name + "?totalPrice=$totalPrice")
                     }
                 },
                 modifier = modifier.fillMaxWidth(),
@@ -261,7 +264,7 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
                                         .weight(1f)
                                         .padding(horizontal = 8.dp)
                                 ) {
-                                    Text(menu.name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                                    Text(menu.name, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                                     Text(menu.description, fontSize = 12.sp)
                                     Text(
                                         "${menu.price}원",

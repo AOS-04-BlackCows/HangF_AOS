@@ -22,7 +22,6 @@ import com.compose.hangf_aos.views.screens.MainHome
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerHomeUI
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerMenuEditDialog
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerMenuScreen
-import com.compose.hangf_aos.views.viewmodels.SharedOrderViewModel
 
 @Composable
 fun HangFNavigation(modifier: Modifier = Modifier) {
@@ -79,15 +78,17 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
 
         composable(route = Bookmark.CustomerReservation.name)
         {
-            val parentEntry = remember(it) { it }
-            val sharedOrderViewModel: SharedOrderViewModel = hiltViewModel(parentEntry)
             ReservationUI(navController = navController, modifier = modifier, pageName = "예약화면")
         }
 
-        composable(route = Bookmark.CustomerConfirmed.name)
-        {
-
-            ConfirmedUI(navController = navController, modifier = modifier, pageName = "장바구니")
+        composable(
+            route = Bookmark.CustomerConfirmed.name+"?totalPrice={totalPrice}",
+            arguments = listOf(
+                navArgument("totalPrice") { type = NavType.StringType }
+            ))
+        { entry ->
+            ConfirmedUI(navController = navController, modifier = modifier, pageName = "장바구니",
+                entry.arguments?.getString("totalPrice")?: "0")
         }
 
         composable(route = Bookmark.StoreOwnerHome.name) {
