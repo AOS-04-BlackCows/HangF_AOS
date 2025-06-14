@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+// 예약 리스트의 예약 메뉴를 확인하는 다이얼로그
 @Composable
 fun StoreOwnerConfirmedDialog(
     modifier: Modifier = Modifier,
@@ -36,6 +37,7 @@ fun StoreOwnerConfirmedDialog(
                 Text(name, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 Text(phone, fontWeight = FontWeight.Bold)
                 Spacer(modifier = modifier.height(4.dp))
+                /*예약 리스트에 예약 시간 가져오기*/
                 Text("2025-04-06    14:30")
 
                 Spacer(modifier = modifier.height(12.dp))

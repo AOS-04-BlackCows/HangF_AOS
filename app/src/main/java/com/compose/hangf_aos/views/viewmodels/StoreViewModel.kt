@@ -74,4 +74,8 @@ class StoreViewModel @Inject constructor(
             }
         }
     }
+
+     fun resetState() {
+        _state.value = StoreState.Idle
+    }
 }
