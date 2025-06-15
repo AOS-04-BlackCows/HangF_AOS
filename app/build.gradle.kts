@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
 
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -16,6 +18,12 @@ android {
     namespace = "com.compose.hangf_aos"
     compileSdk = 35
 
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.compose.hangf_aos"
         minSdk = 24
@@ -27,6 +35,22 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+            "String",
+            "KAKAO_NATIVE_APP_KEY",
+            properties.getProperty("kakao_native_app_key")
+        )
+        buildConfigField(
+            "String",
+            "KAKAO_REST_API_KEY",
+            properties.getProperty("kakao_rest_api_key")
+        )
+        buildConfigField(
+            "String",
+            "SEARCH_API_BASE",
+            properties.getProperty("search_api_base")
+        )
     }
 
     buildTypes {
@@ -86,9 +110,17 @@ dependencies {
     // MariaDB JDBC 드라이버 추가 = fail...삭제 예정
     implementation("org.mariadb.jdbc:mariadb-java-client:3.1.0")
 
-    // Retofit 추가
+    // DataStore 추가
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
+
+    // Retrofit 추가
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // okHttp 추가
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 
     // Firebase 추가
     implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
@@ -97,6 +129,9 @@ dependencies {
     // Hilt 추가
     implementation ("com.google.dagger:hilt-android:2.56.1")
     kapt ("com.google.dagger:hilt-compiler:2.56.1")
+
+    // 아이콘 추가
+    implementation("androidx.compose.material:material-icons-extended")
 }
 
 kapt {

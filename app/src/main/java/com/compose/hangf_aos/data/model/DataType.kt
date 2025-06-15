@@ -1,5 +1,7 @@
 package com.compose.hangf_aos.data.model
 
+import com.google.gson.Gson
+
 // 공통 타입 정의
 enum class OrderStatus {
     Pending, Accepted, Complete, Rejected, Cancelled
@@ -42,7 +44,13 @@ data class Menu(
     val description: String = "",
     val price: Int = 0,
     val isActive: Boolean = true
-)
+) {
+    companion object {
+        fun fromJson(json: String): Menu {
+            return Gson().fromJson(json, Menu::class.java)
+        }
+    }
+}
 
 data class MenuOrder(
     val id: String = "",

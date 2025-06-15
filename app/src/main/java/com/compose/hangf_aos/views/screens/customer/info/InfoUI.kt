@@ -5,18 +5,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-
-//import androidx.compose.material.icons.Icons
-//import androidx.compose.material.icons.automirrored.filled.ArrowBack
-//import androidx.compose.material.icons.filled.AccountCircle
-
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -59,8 +53,6 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
 
     val state by viewModel.state.collectAsState()
 
-
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -77,25 +69,7 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                         )
                     }
                 }
-//                navigationIcon = { // 뒤로가기 버튼 - 유저 정보 변경 활성화시 주석 해제
-//                    IconButton(onClick = {
-////                        navController.navigate(Bookmark.MainHome.name)
-//                        Toast.makeText(context,"뒤로가기", Toast.LENGTH_SHORT).show()
-//                    }) {//뒤로가기 버튼
-//                        Icon(
-//                            Icons.AutoMirrored.Filled.ArrowBack,
-//                            contentDescription = "ArrowBack",
-//                            tint = Color.White,
-//                            modifier = modifier.padding(start = 8.dp),
-//                        )
-//                    }
-//                },
             )
-        },
-        bottomBar = { // 개발 편의를 위한 임시
-            Button(onClick = { navController.navigate(Bookmark.CustomerReservation.name) }) {
-                Text(text = "이동")
-            }
         },
         content = {
             Column (
@@ -135,27 +109,6 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                     label = { Text("전화번호") }
                 )
 
-                //DB 테스트 코드 시작점
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = {
-                        val customer = Customer(name, phone)
-                        viewModel.handleIntent(CustomerIntent.AddCustomer(customer))
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("고객 추가")
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = {
-                        viewModel.handleIntent(CustomerIntent.GetAllCustomers)
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("고객 조회")
-                }
-
                 when (state) {
                     is CustomerState.Loading -> CircularProgressIndicator()
                     is CustomerState.Success -> {
@@ -164,20 +117,17 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                             Text("이름: ${it.name}, 전화번호: ${it.phone}")
                         } ?: Text("고객 정보 없음")
                     }
-                    is CustomerState.ListSuccess -> {
-                        val customers = (state as CustomerState.ListSuccess).customers
-                        customers.forEach {
-                            Text("이름: ${it.name}, 전화번호: ${it.phone}")
-                        }
-                    }
                     is CustomerState.Error -> Toast.makeText(context, (state as CustomerState.Error).message, Toast.LENGTH_SHORT).show()
                     else -> {}
                 }
-                //DB 테스트 코드 끝점
 
                 Spacer(modifier = modifier.height(10.dp))
                 if (name.isNotEmpty()&&phone.isNotEmpty()){
-                    Button(onClick = { navController.navigate(Bookmark.MainHome.name+"/$name,$phone") }) {
+                    Button(onClick = {
+                        val customer = Customer(name, phone)
+                        viewModel.handleIntent(CustomerIntent.AddCustomer(customer))
+                        navController.navigate(Bookmark.MainHome.name)
+                    }) {
                         Text(text = "홈으로")
                     }
                 }

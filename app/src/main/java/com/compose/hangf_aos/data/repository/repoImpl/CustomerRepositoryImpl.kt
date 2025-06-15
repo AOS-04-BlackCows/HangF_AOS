@@ -4,10 +4,11 @@ import com.compose.hangf_aos.data.model.Customer
 import com.compose.hangf_aos.data.repository.repoInterfaces.CustomerRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+
 import javax.inject.Inject
 
 class CustomerRepositoryImpl @Inject constructor(
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
 ) : CustomerRepository {
     private val customersRef = db.collection("customers")
 
