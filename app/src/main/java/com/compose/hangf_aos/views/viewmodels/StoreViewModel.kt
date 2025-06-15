@@ -1,5 +1,6 @@
 package com.compose.hangf_aos.views.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.compose.hangf_aos.data.model.Store
@@ -73,5 +74,10 @@ class StoreViewModel @Inject constructor(
                 StoreState.Error("스토어 삭제 실패")
             }
         }
+    }
+
+    fun resetState() {
+        Log.d("StoreViewModel", "상태 초기화")
+        _state.value = StoreState.Idle
     }
 }

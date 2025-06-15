@@ -25,25 +25,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.layout.FlowRow
 
+// 점주용 홈 화면 UI를 구성하는 Composable 함수
+// 주요 기능: 예약 요청 리스트, 예약 상세 보기, 매장정보/상품조정 기능 진입 버튼 포함
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun StoreOwnerHomeUI(navController: NavController, modifier: Modifier = Modifier) {
     val context = LocalContext.current
+
+    // FloatingActionButton 메뉴 표시 여부 상태
     val showFabMenu = remember { mutableStateOf(false) }
 
-    // 예약 요청 다이얼로그
+    // 예약 관련 다이얼로그 상태 관리
     val showDialog = remember { mutableStateOf(false) }
     val selectedReservation = remember { mutableStateOf<String?>(null) }
+
     val showStoreDialog = remember { mutableStateOf(false) }
     val dialogType = remember { mutableStateOf<String?>(null) }
 
     // 모두보기를 눌렀는지 여부 기억하는 상태 변수
     val showAllRequests = remember { mutableStateOf(false) }
+
+    // 더미 예약 요청 데이터
     val reservationRequests = listOf(
         "김철수(1234)", "이영희(5678)", "박민수(8910)",
         "최민정(1122)", "한상우(3344)", "정은지(5566)",
         "류지혁(7788)", "오지현(9900)"
     )
+
+    // 더미 예약 완료 내역 데이터
     val reservationList = listOf(
         "김철수(1234) - 김치, 불고기, 계란말이, 잡채, 나물, 고등어조림",
         "이영희(5678) - 잡채, 된장찌개, 계란찜, 제육볶음, 오징어볶음, 깻잎무침",
@@ -56,7 +65,7 @@ fun StoreOwnerHomeUI(navController: NavController, modifier: Modifier = Modifier
     )
     val selected = selectedReservation.value
 
-    // 기본  6개만 보여주고, 버튼 누르면 전체 보여줌
+    // 보여줄 예약 요청 리스트 (6개 제한 또는 전체)
     val visibleRequests =
         if (showAllRequests.value) reservationRequests else reservationRequests.take(6)
 
@@ -84,6 +93,7 @@ fun StoreOwnerHomeUI(navController: NavController, modifier: Modifier = Modifier
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .clickable {
+                                        // 매장정보 변경 다이얼로그 열기
                                         showFabMenu.value = false
                                         showStoreDialog.value = true
                                     }
@@ -97,6 +107,7 @@ fun StoreOwnerHomeUI(navController: NavController, modifier: Modifier = Modifier
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .clickable {
+                                        // 상품 조정 페이지로 이동
                                         showFabMenu.value = false
                                         navController.navigate("StoreOwnerMenu")
                                     }
@@ -190,6 +201,7 @@ fun StoreOwnerHomeUI(navController: NavController, modifier: Modifier = Modifier
             Text("예약 리스트 확인", fontWeight = FontWeight.Bold, fontSize = 16.sp)
             Spacer(modifier = modifier.height(8.dp))
 
+            // 예약 다이얼로그 표시 처리 (요청/완료 상태에 따라 다름)
             if (showDialog.value && selected != null) {
                 val (name, phone) = selected.split("(").let {
                     val namePart = it[0]
@@ -199,6 +211,7 @@ fun StoreOwnerHomeUI(navController: NavController, modifier: Modifier = Modifier
 
                 when (dialogType.value) {
                     "request" -> {
+                        // 예약 수락/거절 다이얼로그
                         StoreOwnerReservationDialog(
                             name = name,
                             phone = phone,
@@ -207,11 +220,13 @@ fun StoreOwnerHomeUI(navController: NavController, modifier: Modifier = Modifier
                                 dialogType.value = null
                             },
                             onAccept = {
+                                /*TODO : 예약 수락 시 예약 리스트로 내려가기*/
                                 Toast.makeText(context, "예약 수락됨.", Toast.LENGTH_SHORT).show()
                                 showDialog.value = false
                                 dialogType.value = null
                             },
                             onReject = {
+                                /*TODO : 예약 거절 시 거절 사유 적기 (다이얼로그로 전송)*/
                                 Toast.makeText(context, "예약 거절됨.", Toast.LENGTH_SHORT).show()
                                 showDialog.value = false
                                 dialogType.value = null
@@ -238,6 +253,7 @@ fun StoreOwnerHomeUI(navController: NavController, modifier: Modifier = Modifier
                 }
             }
 
+            // 예약 완료 리스트 영역 (클릭 시 상세보기 다이얼로그)
             LazyColumn {
                 items(reservationList) { item ->
                     Row(

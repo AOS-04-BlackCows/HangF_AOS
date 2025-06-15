@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+// 예약 요청 다이얼로그
 @Composable
 fun StoreOwnerReservationDialog(
     modifier: Modifier = Modifier,
