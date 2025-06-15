@@ -36,12 +36,13 @@ fun StoreInfoDialog(
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
+    // 상태 변화 감지
     LaunchedEffect(state) {
         when (state) {
             is StoreState.Success -> {
                 Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT).show()
-                viewModel.resetState()
-                onDismiss()
+                viewModel.resetState() // 상태 초기화
+                onDismiss() // 성공 후 다이얼로그 닫기
             }
 
             is StoreState.Error -> {
@@ -65,7 +66,7 @@ fun StoreInfoDialog(
 
     val calendar = Calendar.getInstance()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(Unit) { //TODO : 데이터스토어로 변경
         val prefs = context.getSharedPreferences("store_info", Context.MODE_PRIVATE)
         storeName = prefs.getString("store_name", storeName) ?: storeName
         openTime = prefs.getString("open_time", openTime) ?: openTime
@@ -120,6 +121,7 @@ fun StoreInfoDialog(
         confirmButton = {
             Row {
                 TextButton(onClick = {
+                    // 초기화 코드
                     storeName = ""
                     openTime = "00:00"
                     closeTime = "00:00"
@@ -133,7 +135,6 @@ fun StoreInfoDialog(
 
                 Spacer(modifier = modifier.width(8.dp))
 
-
                 TextButton(onClick = {
                     var dayOnTimeList = listOf(
                         DayOnTime(
@@ -142,6 +143,7 @@ fun StoreInfoDialog(
                             closeTime
                         )
                     )
+                    // 저장 로직
                     val store = Store(
                         id = storeName,
                         name = storeName,
@@ -152,6 +154,7 @@ fun StoreInfoDialog(
 
                     viewModel.handleIntent(StoreIntent.AddStore(store))
 
+                    // SharedPreferences 저장
                     val prefs = context.getSharedPreferences("store_info", Context.MODE_PRIVATE)
                     prefs.edit().apply() {
                         putString("store_name", storeName)
