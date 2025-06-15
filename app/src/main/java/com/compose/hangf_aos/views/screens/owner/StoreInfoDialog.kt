@@ -34,6 +34,25 @@ fun StoreInfoDialog(
 ) {
     val viewModel: StoreViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(state) {
+        when (state) {
+            is StoreState.Success -> {
+                Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT).show()
+                viewModel.resetState()
+                onDismiss()
+            }
+
+            is StoreState.Error -> {
+                Toast.makeText(context, (state as StoreState.Error).message, Toast.LENGTH_SHORT)
+                    .show()
+                viewModel.resetState()
+            }
+
+            else -> {}
+        }
+    }
 
     // rememberSaveable을 사용해 다이얼로그 닫았다 다시 열어도 값 유지
     var storeName by rememberSaveable { mutableStateOf("") }
@@ -44,7 +63,6 @@ fun StoreInfoDialog(
     var etc by rememberSaveable { mutableStateOf("") }
     var openDays by rememberSaveable { mutableStateOf("$startDate - $endDate") }
 
-    val context = LocalContext.current
     val calendar = Calendar.getInstance()
 
     LaunchedEffect(Unit) {
@@ -115,33 +133,16 @@ fun StoreInfoDialog(
 
                 Spacer(modifier = modifier.width(8.dp))
 
-//                when (state) {
-//                    is StoreState.Loading -> CircularProgressIndicator()
-//                    is StoreState.Success -> {
-//                        val store = (state as StoreState.Success).store
-//                        store?.let {
-//                            Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT).show()
-//                        } ?: Toast.makeText(context, "저장 실패", Toast.LENGTH_SHORT).show()
-//                    }
-
-//                    is StoreState.Error -> Toast.makeText(
-//                        context,
-//                        (state as StoreState.Error).message,
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//
-//                    else -> {}
-//                }
 
                 TextButton(onClick = {
-                    var dayOnTimeList = mutableListOf(
+                    var dayOnTimeList = listOf(
                         DayOnTime(
                             "\${calendar.get(Calendar.DAY_OF_WEEK)}",
                             openTime,
                             closeTime
                         )
                     )
-                    val store =Store(
+                    val store = Store(
                         id = storeName,
                         name = storeName,
                         address = etc,
@@ -161,7 +162,6 @@ fun StoreInfoDialog(
                         putString("etc", etc)
                         apply()
                     }
-                    onDismiss ()
                 }) {
                     Text("저장")
                 }
@@ -197,11 +197,11 @@ fun StoreInfoDialog(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text("오픈 시간", fontSize = 14.sp)
-                    Button (
+                    Button(
                         onClick = { openTimePicker.show() },
                         shape = RoundedCornerShape(50),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3C4A83))
-                    ){
+                    ) {
                         Text(openTime, color = Color.White)
                     }
                 }
@@ -215,13 +215,13 @@ fun StoreInfoDialog(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text("마감 시간", fontSize = 14.sp)
-                    Button (
-                            onClick = { closeTimePicker.show() },
-                    shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3C4A83))
-                    ){
-                    Text(closeTime, color = Color.White)
-                }
+                    Button(
+                        onClick = { closeTimePicker.show() },
+                        shape = RoundedCornerShape(50),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3C4A83))
+                    ) {
+                        Text(closeTime, color = Color.White)
+                    }
                 }
 
                 HorizontalDivider()
@@ -234,21 +234,21 @@ fun StoreInfoDialog(
                 ) {
                     Text("영업 일정", fontSize = 14.sp)
                     Row {
-                        Button (
+                        Button(
                             onClick = { startDatePicker.show() },
                             shape = RoundedCornerShape(50),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3C4A83))
-                        ){
+                        ) {
                             Text(startDate, color = Color.White)
                         }
                         Spacer(modifier = modifier.width(4.dp))
                         Text("~", modifier = modifier.align(Alignment.CenterVertically))
                         Spacer(modifier = modifier.width(4.dp))
-                        Button (
+                        Button(
                             onClick = { endDatePicker.show() },
                             shape = RoundedCornerShape(50),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3C4A83))
-                        ){
+                        ) {
                             Text(endDate, color = Color.White)
                         }
                     }
