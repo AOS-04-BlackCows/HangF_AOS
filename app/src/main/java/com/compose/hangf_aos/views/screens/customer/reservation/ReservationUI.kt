@@ -72,7 +72,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, pageName: String) {
+fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, pageName: String, StoreId: String) {
     val isExpanded = remember { mutableStateOf(false) }
 
     val (clicks, setClicks) = remember { mutableStateOf(0) }
@@ -87,6 +87,7 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
     val menuState by menuViewModel.state.collectAsState()
     val storeState by storeViewModel.state.collectAsState()
 
+    //TODO : 추후 스토어 많아지면 매장 ID값 받아 넣어야 함
     LaunchedEffect(Unit) {
         menuViewModel.handleIntent(MenuIntent.GetMenusByStore(storeId = "힐링쿡 용호동점")) //매장 ID 값
         storeViewModel.handleIntent(StoreIntent.GetStore(storeId = "힐링쿡 용호동점")) //매장 ID 값

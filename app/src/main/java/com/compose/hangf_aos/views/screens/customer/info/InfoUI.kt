@@ -122,6 +122,7 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                 }
 
                 Spacer(modifier = modifier.height(10.dp))
+                //기존 가입자 확인후 로그인
                 if (name.isNotEmpty()&&phone.isNotEmpty()){
                     Button(onClick = {
                         val customer = Customer(name, phone)
