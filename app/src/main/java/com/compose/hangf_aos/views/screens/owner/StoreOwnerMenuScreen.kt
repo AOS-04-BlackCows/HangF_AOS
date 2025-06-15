@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 @Composable
 fun StoreOwnerMenuScreen(navController: NavController, modifier: Modifier = Modifier) {
 
+    /*TODO : 손님용 예약 메뉴에 동기화하기*/
     val menuList = listOf(
         Triple("반찬 이름", "남녀노소 함께 즐기는 (반찬 설명)", "5,000원"),
         Triple("반찬 이름", "남녀노소 함께 즐기는 (반찬 설명)", "5,000원"),
@@ -57,7 +58,7 @@ fun StoreOwnerMenuScreen(navController: NavController, modifier: Modifier = Modi
                             .size(64.dp)
                             .border(0.5.dp, Color.LightGray, RoundedCornerShape(4.dp))
                     ) {
-                        // TODO: 이미지 삽입
+                        /*TODO: 이미지 삽입*/
                     }
 
                     Spacer(modifier = modifier.width(12.dp))
