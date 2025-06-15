@@ -142,13 +142,30 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
                                 }
                             }
                         }) {
-                        Icon(
-                            imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "장바구니",
-                            modifier = modifier
-                                .size(32.dp)
-                                .padding(top = 4.dp, end = 4.dp),
-                        )
+                        IconButton( onClick = {
+                            if (clicks > 0) {
+                                // Map<Menu, Int> 형태로 변환
+                                val selectedMenuList =
+                                    selectedMenuObjects.entries.map { it.key to it.value }
+
+                                // 현재 BackStackEntry의 savedStateHandle에 데이터 저장
+                                navController.currentBackStackEntry?.savedStateHandle?.set(
+                                    "menus",
+                                    selectedMenuList
+                                )
+
+                                // totalPrice만 URL 파라미터로 넘김
+                                navController.navigate(Bookmark.CustomerConfirmed.name + "?totalPrice=$totalPrice")
+                            }
+                        }) {
+                            Icon(
+                                imageVector = Icons.Default.ShoppingCart,
+                                contentDescription = "장바구니",
+                                modifier = modifier
+                                    .size(32.dp)
+                                    .padding(top = 4.dp, end = 4.dp),
+                            )
+                        }
                     }
                 },
             )
@@ -291,8 +308,6 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
 
                                     IconButton(
                                         onClick = {
-                                            setClicks(clicks + 1)
-
                                             // update map
                                             setClicks(clicks + 1)
                                             selectedMenus.value =

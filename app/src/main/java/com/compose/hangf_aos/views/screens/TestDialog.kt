@@ -152,8 +152,8 @@ fun T_StoreInfoDialog(
                     is StoreState.Success -> {
                         val store = (state as StoreState.Success).store
                         store?.let {
-                            Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT).show()
-                        } ?: Toast.makeText(context, "저장 실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "저장 정보 불러옴", Toast.LENGTH_SHORT).show()
+                        } ?: Toast.makeText(context, "저장 정보 불러오기 실패", Toast.LENGTH_SHORT).show()
                     }
 
                     is StoreState.Error -> Toast.makeText(
@@ -191,7 +191,6 @@ fun T_StoreInfoDialog(
 //                    }
 
                     viewModel.handleIntent(StoreIntent.AddStore(store))
-                    Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT).show()
                     onDismiss()
                 }) {
                     Text("저장")
@@ -329,7 +328,6 @@ fun T_MenuEditDialog(
                         price = price.toInt(),
                         isActive = true
                     )
-                    Toast.makeText(context, "저장 완료", Toast.LENGTH_SHORT).show()
                     viewModel.handleIntent(MenuIntent.AddMenu(menu))
                     onDismiss()
                 }

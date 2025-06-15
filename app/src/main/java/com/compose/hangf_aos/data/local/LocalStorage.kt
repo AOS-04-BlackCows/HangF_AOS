@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 private val Context.customerDataStore by preferencesDataStore(name = "customer_prefs")
 private val Context.storeOwnerDataStore by preferencesDataStore(name = "store_owner_prefs")
+private val Context.storeDataStore by preferencesDataStore(name = "store_prefs")
 
 class LocalStorage @Inject constructor(
     @ApplicationContext private val context: Context
@@ -37,6 +38,12 @@ class LocalStorage @Inject constructor(
         context.customerDataStore.edit { prefs ->
             prefs[NAME_KEY] = name
             prefs[PHONE_KEY] = phone
+        }
+    }
+    suspend fun saveCustomer(customer: Customer) {
+        context.customerDataStore.edit { prefs ->
+            prefs[NAME_KEY] = customer.name
+            prefs[PHONE_KEY] = customer.phone
         }
     }
 
@@ -67,5 +74,25 @@ class LocalStorage @Inject constructor(
     suspend fun clearStoreOwner() {
         context.storeOwnerDataStore.edit { it.clear() }
     }
+
+    suspend fun saveLoginOwner(loginId: String, loginPw: String) {
+        context.storeOwnerDataStore.edit { prefs ->
+            prefs[LOGIN_ID_KEY] = loginId
+            prefs[PASSWORD_KEY] = loginPw
+        }
+    }
+    suspend fun getLoginOwner(): String? {
+        val prefs = context.storeOwnerDataStore.data.first()
+        return prefs[LOGIN_ID_KEY]
+    }
+
+    suspend fun clearLoginOwner() {
+        context.storeOwnerDataStore.edit { it.clear() }
+    }
+
+    suspend fun saveStore(storeId: String, storeName: String, ) {
+        //TODO : 매장 정보 저장
+    }
+    //TODO : 매장 정보 불러오기 & 수정(저장), 삭제
 
 }

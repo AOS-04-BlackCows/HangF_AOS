@@ -88,6 +88,8 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
             ))
         { entry ->
             ConfirmedUI(navController = navController, modifier = modifier, pageName = "장바구니",
+                customerName = customerName,
+                customerPhone = customerPhone,
                 entry.arguments?.getString("totalPrice")?: "0")
         }
 
