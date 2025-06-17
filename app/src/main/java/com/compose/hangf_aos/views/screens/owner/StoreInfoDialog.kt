@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -61,7 +62,7 @@ fun StoreInfoDialog(
     var closeTime by rememberSaveable { mutableStateOf("00:00") }
     var startDate by rememberSaveable { mutableStateOf("MM/DD") }
     var endDate by rememberSaveable { mutableStateOf("MM/DD") }
-    var etc by rememberSaveable { mutableStateOf("") }
+    var address by rememberSaveable { mutableStateOf("") }
     var openDays by rememberSaveable { mutableStateOf("$startDate - $endDate") }
 
     val calendar = Calendar.getInstance()
@@ -73,7 +74,7 @@ fun StoreInfoDialog(
         closeTime = prefs.getString("close_time", closeTime) ?: closeTime
         startDate = prefs.getString("start_date", startDate) ?: startDate
         endDate = prefs.getString("end_date", endDate) ?: endDate
-        etc = prefs.getString("etc", etc) ?: etc
+        address = prefs.getString("address", address) ?: address
         openDays = "$startDate - $endDate"
     }
 
@@ -128,7 +129,7 @@ fun StoreInfoDialog(
                     startDate = "MM/DD"
                     endDate = "MM/DD"
                     openDays = "$startDate - $endDate"
-                    etc = ""
+                    address = ""
                 }) {
                     Text("초기화")
                 }
@@ -147,7 +148,7 @@ fun StoreInfoDialog(
                     val store = Store(
                         id = storeName,
                         name = storeName,
-                        address = etc,
+                        address = address,
                         phoneNumber = "01077628540",
                         dayOnTime = dayOnTimeList
                     )
@@ -162,7 +163,7 @@ fun StoreInfoDialog(
                         putString("close_time", closeTime)
                         putString("start_date", startDate)
                         putString("end_date", endDate)
-                        putString("etc", etc)
+                        putString("address", address)
                         apply()
                     }
                 }) {
@@ -265,17 +266,25 @@ fun StoreInfoDialog(
                         .padding(vertical = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    OutlinedTextField(
-                        value = etc,
-                        onValueChange = { etc = it },
-                        label = { Text("주소") },
-                        modifier = modifier.fillMaxWidth(),
-                        singleLine = true,
+                    Text(
+                        text = if (address.isNotBlank()) address else "주소를 입력해주세요. ",
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                            .clickable {
+                                // TODO : 카카오 지도 화면으로 이동하도록 구현
+                                Toast.makeText(context, "카카오 주소 찾기 화면으로 이동", Toast.LENGTH_SHORT)
+                                    .show()
+                            },
+                        fontSize = 16.sp,
+                        color = if (address.isNotBlank()) Color.Black else Color.Gray
                     )
                 }
 
-                HorizontalDivider()
             }
+
+            HorizontalDivider()
+
         }
     )
 }
