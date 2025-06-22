@@ -1,11 +1,11 @@
 package com.compose.hangf_aos.data.repository.repoImpl
 
+import com.compose.hangf_aos.data.model.Menu
+import com.compose.hangf_aos.data.model.MenuOrder
 import com.compose.hangf_aos.data.model.Order
 import com.compose.hangf_aos.data.repository.repoInterfaces.OrderRepository
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -110,41 +110,4 @@ class OrderRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
-//
-//    override suspend fun getOrdersByMenu(menuId: String): Result<List<Order>> {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override suspend fun getOrdersByCategory(category: String): Result<List<Order>> {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override suspend fun getOrdersByPrice(minPrice: Double, maxPrice: Double): Result<List<Order>> {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override suspend fun getOrdersByRating(
-//        minRating: Double,
-//        maxRating: Double
-//    ): Result<List<Order>> {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override suspend fun getOrdersByDeliveryTime(
-//        minTime: Long,
-//        maxTime: Long
-//    ): Result<List<Order>> {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override suspend fun getOrdersByDeliveryFee(
-//        minFee: Double,
-//        maxFee: Double
-//    ): Result<List<Order>> {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override suspend fun getOrdersByDeliveryMethod(method: String): Result<List<Order>> {
-//        TODO("Not yet implemented")
-//    }
 }

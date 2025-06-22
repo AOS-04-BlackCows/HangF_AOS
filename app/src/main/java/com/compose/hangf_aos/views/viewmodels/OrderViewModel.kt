@@ -19,21 +19,15 @@ class OrderViewModel @Inject constructor(
     private val _state = MutableStateFlow<OrderState>(OrderState.Idle)
     val state: StateFlow<OrderState> = _state
 
-    fun handleIntent(intent: OrderIntent, order: Order?) {
+    fun handleIntent(intent: OrderIntent) {
         when (intent) {
             is OrderIntent.AddOrder -> addOrder(intent.order)
             is OrderIntent.GetOrder -> getOrder(intent.orderId)
             is OrderIntent.GetAllOrders -> getAllOrders()
             is OrderIntent.GetOrdersByTime -> getOrdersByTime()
-            is OrderIntent.GetOrdersByStatus -> if (order != null) {
-                getOrdersByStatus(order.status.toString())
-            }
-            is OrderIntent.GetOrdersByCustomer -> if (order != null) {
-                getOrdersByCustomer(order.customerId)
-            }
-            is OrderIntent.GetOrdersByStore -> if (order != null) {
-                getOrdersByStore(order.storeId)
-            }
+            is OrderIntent.GetOrdersByStatus -> getOrdersByStatus(intent.status)
+            is OrderIntent.GetOrdersByCustomer -> getOrdersByCustomer(intent.customerId)
+            is OrderIntent.GetOrdersByStore -> getOrdersByStore(intent.storeId)
             is OrderIntent.UpdateOrder -> updateOrder(intent.order)
             is OrderIntent.DeleteOrder -> deleteOrder(intent.orderId)
         }

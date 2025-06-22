@@ -7,9 +7,9 @@ sealed class OrderIntent {
     data class GetOrder(val orderId: String) : OrderIntent()
     data object GetAllOrders : OrderIntent()
     data object GetOrdersByTime : OrderIntent()
-    data object GetOrdersByStatus : OrderIntent()
-    data object GetOrdersByCustomer : OrderIntent()
-    data object GetOrdersByStore : OrderIntent()
+    data class GetOrdersByStatus(val status: String) : OrderIntent()
+    data class GetOrdersByCustomer(val customerId: String) : OrderIntent()
+    data class GetOrdersByStore(val storeId: String) : OrderIntent()
     data class UpdateOrder(val order: Order) : OrderIntent()
     data class DeleteOrder(val orderId: String) : OrderIntent()
 }

@@ -116,8 +116,7 @@ fun ConfirmedUI(
 
     LaunchedEffect(Unit) {
         orderViewModel.handleIntent(
-            OrderIntent.GetOrdersByCustomer,
-            order = Order(customerId = customerPhone)
+            OrderIntent.GetOrdersByCustomer(customerPhone)
         )
         menuOderViewModel.handleIntent(MenuOrderIntent.GetAllMenuOrders)
     }
@@ -267,7 +266,7 @@ fun ConfirmedUI(
                             status = com.compose.hangf_aos.data.model.OrderStatus.Pending,
                             pickUpTime = reservedDate.value + " " + reservedTime.value
                         )
-                        orderViewModel.handleIntent(OrderIntent.AddOrder(order), order)
+                        orderViewModel.handleIntent(OrderIntent.AddOrder(order))
                         Toast.makeText(context, "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                         navController.navigate(Bookmark.MainHome.name)
                     }
