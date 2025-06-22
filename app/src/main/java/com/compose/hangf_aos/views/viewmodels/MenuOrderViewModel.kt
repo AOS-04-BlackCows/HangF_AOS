@@ -69,7 +69,7 @@ class MenuOrderViewModel @Inject constructor(
             _state.value = MenuOrderState.Loading
             val result = menuOrderUseCase.getAllMenuOrders()
             _state.value = result.fold(
-                onSuccess = { MenuOrderState.Success(it) },
+                onSuccess = { MenuOrderState.ListSuccess(it) },
                 onFailure = { MenuOrderState.Error(it.message ?: "전체 메뉴 주문 조회 실패") }
             )
         }

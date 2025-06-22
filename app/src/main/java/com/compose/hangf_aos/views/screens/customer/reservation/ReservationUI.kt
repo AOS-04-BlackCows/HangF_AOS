@@ -1,7 +1,5 @@
 package com.compose.hangf_aos.views.screens.customer.reservation
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,8 +17,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.*
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Button
@@ -31,7 +33,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,31 +49,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.compose.hangf_aos.R
-import com.compose.hangf_aos.data.model.Menu
-import com.compose.hangf_aos.data.model.MenuOrder
-import com.compose.hangf_aos.data.model.Order
-import com.compose.hangf_aos.domain.usecase.MenuOrderUseCase
 import com.compose.hangf_aos.views.intents.MenuIntent
 import com.compose.hangf_aos.views.intents.StoreIntent
 import com.compose.hangf_aos.views.nevigation.Bookmark
 import com.compose.hangf_aos.views.states.MenuState
 import com.compose.hangf_aos.views.states.StoreState
-import com.compose.hangf_aos.views.viewmodels.MenuOrderViewModel
 import com.compose.hangf_aos.views.viewmodels.MenuViewModel
-import com.compose.hangf_aos.views.viewmodels.OrderViewModel
 import com.compose.hangf_aos.views.viewmodels.StoreViewModel
-import com.google.gson.Gson
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, pageName: String) {
+fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, pageName: String, StoreId: String) {
     val isExpanded = remember { mutableStateOf(false) }
 
     val (clicks, setClicks) = remember { mutableStateOf(0) }
@@ -87,6 +79,7 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
     val menuState by menuViewModel.state.collectAsState()
     val storeState by storeViewModel.state.collectAsState()
 
+    //TODO : 추후 스토어 많아지면 매장 ID값 받아 넣어야 함
     LaunchedEffect(Unit) {
         menuViewModel.handleIntent(MenuIntent.GetMenusByStore(storeId = "힐링쿡 용호동점")) //매장 ID 값
         storeViewModel.handleIntent(StoreIntent.GetStore(storeId = "힐링쿡 용호동점")) //매장 ID 값

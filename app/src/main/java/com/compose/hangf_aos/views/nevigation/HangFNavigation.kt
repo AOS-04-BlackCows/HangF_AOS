@@ -19,6 +19,7 @@ import com.compose.hangf_aos.views.screens.customer.confirmed.ConfirmedUI
 import com.compose.hangf_aos.views.screens.customer.info.InfoUI
 import com.compose.hangf_aos.views.screens.customer.reservation.ReservationUI
 import com.compose.hangf_aos.views.screens.MainHome
+import com.compose.hangf_aos.views.screens.customer.lookup.LookUpUI
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerHomeUI
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerMenuEditDialog
 import com.compose.hangf_aos.views.screens.owner.StoreOwnerMenuScreen
@@ -65,6 +66,7 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
             )
         }
 
+        // 메인 화면
         composable(route = Bookmark.MainHome.name)
         {
             MainHome(
@@ -76,11 +78,13 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
             )
         }
 
+        // 예약 화면
         composable(route = Bookmark.CustomerReservation.name)
         {
-            ReservationUI(navController = navController, modifier = modifier, pageName = "예약화면")
+            ReservationUI(navController = navController, modifier = modifier, pageName = "예약화면", StoreId = "")
         }
 
+        // 예약 확인 화면
         composable(
             route = Bookmark.CustomerConfirmed.name+"?totalPrice={totalPrice}",
             arguments = listOf(
@@ -93,10 +97,19 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
                 entry.arguments?.getString("totalPrice")?: "0")
         }
 
+        // 조회 화면
+        composable(route = Bookmark.CustomerLookup.name){
+            LookUpUI(navController = navController, modifier = modifier, pageName = "예약 조회",
+                customerName = customerName,
+                customerPhone = customerPhone)
+        }
+
+        // 점주 메인 화면
         composable(route = Bookmark.StoreOwnerHome.name) {
             StoreOwnerHomeUI(navController = navController)
         }
 
+        // 점주 메뉴 설정 화면
         composable(route = Bookmark.StoreOwnerMenu.name) {
             StoreOwnerMenuScreen(navController = navController)
         }

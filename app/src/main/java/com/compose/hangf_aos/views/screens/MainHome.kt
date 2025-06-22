@@ -118,7 +118,7 @@ fun MainHome(
         Button(onClick = { navController.navigate(Bookmark.CustomerReservation.name) }) {
             Text(text = "예약 화면")
         }
-        Button(onClick = { Toast.makeText(context, "조회 화면", Toast.LENGTH_SHORT).show() }) {
+        Button(onClick = { navController.navigate(Bookmark.CustomerLookup.name) }) {
             Text(text = "조회 화면")
         }
         Text(text = "테스트용 버튼" , color = Color.White)
