@@ -81,7 +81,8 @@ fun ConfirmedUI(
     pageName: String,
     customerName: String,
     customerPhone: String,
-    totalPrice: String
+    totalPrice: String,
+    storeId: String
 ) {
     val isExpanded = remember { mutableStateOf(true) }
     val context = LocalContext.current
@@ -116,7 +117,7 @@ fun ConfirmedUI(
 
     LaunchedEffect(Unit) {
         orderViewModel.handleIntent(
-            OrderIntent.GetOrdersByCustomer(customerPhone)
+            OrderIntent.GetAllOrders
         )
         menuOderViewModel.handleIntent(MenuOrderIntent.GetAllMenuOrders)
     }
@@ -257,7 +258,7 @@ fun ConfirmedUI(
 
                         var order = Order(
                             id = currentYnM + String.format("%04d", orderLastNumber),
-                            storeId = "힐링쿡 용호동점",
+                            storeId = storeId,
                             customerId = customerPhone,
                             customerName = customerName,
                             userPhoneNumber = customerPhone,

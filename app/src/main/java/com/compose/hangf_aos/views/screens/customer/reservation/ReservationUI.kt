@@ -61,6 +61,7 @@ import com.compose.hangf_aos.views.states.MenuState
 import com.compose.hangf_aos.views.states.StoreState
 import com.compose.hangf_aos.views.viewmodels.MenuViewModel
 import com.compose.hangf_aos.views.viewmodels.StoreViewModel
+import java.net.URLEncoder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,6 +81,7 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
     val storeState by storeViewModel.state.collectAsState()
 
     //TODO : 추후 스토어 많아지면 매장 ID값 받아 넣어야 함
+    var _storeId = if(StoreId.equals("")) "힐링쿡 용호동점" else StoreId
     LaunchedEffect(Unit) {
         menuViewModel.handleIntent(MenuIntent.GetMenusByStore(storeId = "힐링쿡 용호동점")) //매장 ID 값
         storeViewModel.handleIntent(StoreIntent.GetStore(storeId = "힐링쿡 용호동점")) //매장 ID 값
@@ -148,7 +150,7 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
                                 )
 
                                 // totalPrice만 URL 파라미터로 넘김
-                                navController.navigate(Bookmark.CustomerConfirmed.name + "?totalPrice=$totalPrice")
+                                navController.navigate(Bookmark.CustomerConfirmed.name + "?totalPrice=$totalPrice&storeId=$_storeId")
                             }
                         }) {
                             Icon(
@@ -179,7 +181,7 @@ fun ReservationUI(navController: NavController, modifier: Modifier = Modifier, p
                         )
 
                         // totalPrice만 URL 파라미터로 넘김
-                        navController.navigate(Bookmark.CustomerConfirmed.name + "?totalPrice=$totalPrice")
+                        navController.navigate(Bookmark.CustomerConfirmed.name + "?totalPrice=$totalPrice&storeId=$_storeId")
                     }
                 },
                 modifier = modifier.fillMaxWidth(),

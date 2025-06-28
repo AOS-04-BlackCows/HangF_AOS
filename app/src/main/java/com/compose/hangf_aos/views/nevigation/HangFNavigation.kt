@@ -86,15 +86,17 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
 
         // 예약 확인 화면
         composable(
-            route = Bookmark.CustomerConfirmed.name+"?totalPrice={totalPrice}",
+            route = Bookmark.CustomerConfirmed.name+"?totalPrice={totalPrice}&storeId={storeId}",
             arguments = listOf(
-                navArgument("totalPrice") { type = NavType.StringType }
+                navArgument("totalPrice") { type = NavType.StringType },
+                navArgument("storeId") { type = NavType.StringType }
             ))
         { entry ->
             ConfirmedUI(navController = navController, modifier = modifier, pageName = "장바구니",
                 customerName = customerName,
                 customerPhone = customerPhone,
-                entry.arguments?.getString("totalPrice")?: "0")
+                entry.arguments?.getString("totalPrice")?: "0",
+                entry.arguments?.getString("storeId")?: "")
         }
 
         // 조회 화면
