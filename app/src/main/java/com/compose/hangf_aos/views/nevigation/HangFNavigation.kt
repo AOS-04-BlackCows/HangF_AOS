@@ -69,13 +69,7 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
         // 메인 화면
         composable(route = Bookmark.MainHome.name)
         {
-            MainHome(
-                navController = navController,
-                modifier = modifier,
-                pageName = "메인 화면",
-                customerName = customerName,
-                customerPhone = customerPhone
-            )
+            MainHome(navController = navController, modifier = modifier, pageName = "메인 화면")
         }
 
         // 예약 화면
@@ -93,17 +87,13 @@ fun HangFNavigation(modifier: Modifier = Modifier) {
             ))
         { entry ->
             ConfirmedUI(navController = navController, modifier = modifier, pageName = "장바구니",
-                customerName = customerName,
-                customerPhone = customerPhone,
                 entry.arguments?.getString("totalPrice")?: "0",
                 entry.arguments?.getString("storeId")?: "")
         }
 
         // 조회 화면
         composable(route = Bookmark.CustomerLookup.name){
-            LookUpUI(navController = navController, modifier = modifier, pageName = "예약 조회",
-                customerName = customerName,
-                customerPhone = customerPhone)
+            LookUpUI(navController = navController, modifier = modifier, pageName = "예약 조회")
         }
 
         // 점주 메인 화면

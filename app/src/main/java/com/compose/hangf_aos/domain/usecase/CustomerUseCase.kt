@@ -13,13 +13,11 @@ class CustomerUseCase @Inject constructor(
     suspend fun addCustomer(customer: Customer): Result<Unit> {
         //DB에 존재 하는지 확인
         val existingCustomer = customerRepository.getCustomer(customer.phone).getOrNull()
+        localStorage.saveCustomer(customer)
         if (existingCustomer != null) {
-            return Result.failure(Exception("이미 존재하는 고객입니다."))
+            return Result.failure(Exception("${existingCustomer.name}님 환영합니다."))
         }else{
             val result = customerRepository.addCustomer(customer)
-            if (result.isSuccess) {
-                localStorage.saveCustomer(customer.name, customer.phone)
-            }
             return result
         }
     }
@@ -53,6 +51,7 @@ class CustomerUseCase @Inject constructor(
     }
 
     suspend fun updateCustomer(customer: Customer): Result<Unit> {
+        localStorage.saveCustomer(customer)
         return customerRepository.updateCustomer(customer)
     }
 

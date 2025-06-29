@@ -51,6 +51,8 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
     val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
 
+    var customerExist = false
+
     val state by viewModel.state.collectAsState()
 
     Scaffold(
@@ -114,8 +116,12 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                     is CustomerState.Success -> {
                         val customer = (state as CustomerState.Success).customer
                         customer?.let {
-                            Text("이름: ${it.name}, 전화번호: ${it.phone}")
-                        } ?: Text("고객 정보 없음")
+                            Text("${it.name}님 환영합니다.")
+                            customerExist = true
+                        } ?: run {
+                            customerExist = false
+
+                        }
                     }
                     is CustomerState.Error -> Toast.makeText(context, (state as CustomerState.Error).message, Toast.LENGTH_SHORT).show()
                     else -> {}
@@ -126,8 +132,9 @@ fun  InfoUI(viewModel: CustomerViewModel = hiltViewModel(), navController: NavCo
                 if (name.isNotEmpty()&&phone.isNotEmpty()){
                     Button(onClick = {
                         val customer = Customer(name, phone)
+
                         viewModel.handleIntent(CustomerIntent.AddCustomer(customer))
-                        navController.navigate(Bookmark.MainHome.name)
+                        navController.navigate(Bookmark.MainHome.name+"?customerName=$name&customerPhone=$phone")
                     }) {
                         Text(text = "홈으로")
                     }

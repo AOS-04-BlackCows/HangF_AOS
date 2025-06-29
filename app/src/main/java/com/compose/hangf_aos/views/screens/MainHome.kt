@@ -37,6 +37,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.compose.hangf_aos.R
+import com.compose.hangf_aos.views.intents.CustomerIntent
 import com.compose.hangf_aos.views.nevigation.Bookmark
 import com.compose.hangf_aos.views.viewmodels.CustomerViewModel
 
@@ -46,9 +47,7 @@ fun MainHome(
     viewModel: CustomerViewModel = hiltViewModel(),
     navController: NavController,
     modifier: Modifier = Modifier,
-    pageName: String,
-    customerName: String?,
-    customerPhone: String?
+    pageName: String
 ) {
     val context = LocalContext.current
 
@@ -111,8 +110,6 @@ fun MainHome(
         )
         Spacer(modifier = modifier.height(20.dp))
 
-//        Text(text = "이름 : $customerName  전화번호 : $customerPhone", color = Color.White)// 테스트 코드
-        Log.d("MainHome", "이름 : $customerName  전화번호 : $customerPhone")
         Spacer(modifier = modifier.height(20.dp))
 
         Button(onClick = { navController.navigate(Bookmark.CustomerReservation.name) }) {
@@ -145,6 +142,14 @@ fun MainHome(
                         Text(text = "주소 검색")
                     }
                     Text(text = "주소: ${selectedAddress.value}", color = Color.White)
+                }
+                Row {
+                    Button(onClick = {
+                        viewModel.handleIntent(CustomerIntent.ClearLocalCustomer)
+                        navController.navigate(Bookmark.CustomerInfo.name)
+                    }) {
+                        Text("로그아웃")
+                    }
                 }
             }
         }

@@ -28,6 +28,7 @@ class CustomerViewModel @Inject constructor(
             is CustomerIntent.UpdateCustomer -> updateCustomer(intent.customer)
             is CustomerIntent.DeleteCustomer -> deleteCustomer(intent.phoneNumber)
             is CustomerIntent.LoadLocalCustomer -> loadLocalCustomer()
+            is CustomerIntent.ClearLocalCustomer -> clearLocalCustomer()
             else -> {}
         }
     }
@@ -86,6 +87,12 @@ class CustomerViewModel @Inject constructor(
             } else {
                 CustomerState.Error(result.exceptionOrNull()?.message ?: "고객 수정 실패")
             }
+        }
+    }
+
+    private fun clearLocalCustomer() {
+        viewModelScope.launch {
+            customerUseCase.clearLocalCustomer()
         }
     }
 
