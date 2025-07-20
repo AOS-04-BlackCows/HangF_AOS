@@ -27,16 +27,24 @@ class CustomerUseCase @Inject constructor(
     }
 
     suspend fun getLocalCustomer(): Result<Customer?> {
-        return try {
+        return runCatching {
             val (name, phone) = localStorage.getCustomer()
             if (!name.isNullOrBlank() && !phone.isNullOrBlank()) {
-                Result.success(Customer(name, phone))
+                Customer(name, phone)
             } else {
-                Result.success(null)
+                null
             }
-        } catch (e: Exception) {
-            Result.failure(e)
         }
+//        return try {
+//            val (name, phone) = localStorage.getCustomer()
+//            if (!name.isNullOrBlank() && !phone.isNullOrBlank()) {
+//                Result.success(Customer(name, phone))
+//            } else {
+//                Result.success(null)
+//            }
+//        } catch (e: Exception) {
+//            Result.failure(e)
+//        }
     }
     suspend fun clearLocalCustomer() {
         localStorage.clearCustomer()
