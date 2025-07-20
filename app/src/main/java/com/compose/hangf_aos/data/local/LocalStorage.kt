@@ -34,12 +34,6 @@ class LocalStorage @Inject constructor(
             }
         }
 
-    suspend fun saveCustomer(name: String, phone: String) {
-        context.customerDataStore.edit { prefs ->
-            prefs[NAME_KEY] = name
-            prefs[PHONE_KEY] = phone
-        }
-    }
     suspend fun saveCustomer(customer: Customer) {
         context.customerDataStore.edit { prefs ->
             prefs[NAME_KEY] = customer.name

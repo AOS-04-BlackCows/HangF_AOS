@@ -9,4 +9,5 @@ sealed class CustomerIntent {
     data class UpdateCustomer(val customer: Customer) : CustomerIntent() // 고객 정보 수정
     data class DeleteCustomer(val phoneNumber: String) : CustomerIntent() // 고객 정보 삭제
     data object LoadLocalCustomer: CustomerIntent() // 로컬 고객 정보
+    data object ClearLocalCustomer: CustomerIntent() // 로컬 고객 정보 삭제
 }

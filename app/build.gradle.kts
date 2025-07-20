@@ -132,6 +132,9 @@ dependencies {
 
     // 아이콘 추가
     implementation("androidx.compose.material:material-icons-extended")
+
+    // 이미지 자르기
+    implementation("com.vanniktech:android-image-cropper:4.6.0")
 }
 
 kapt {

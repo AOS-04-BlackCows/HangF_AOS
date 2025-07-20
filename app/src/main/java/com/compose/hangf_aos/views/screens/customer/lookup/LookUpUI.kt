@@ -9,11 +9,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.compose.hangf_aos.data.local.LocalStorage
 import com.compose.hangf_aos.data.model.Order
 import com.compose.hangf_aos.views.intents.OrderIntent
 import com.compose.hangf_aos.views.states.OrderState
@@ -24,10 +26,13 @@ import com.compose.hangf_aos.views.viewmodels.OrderViewModel
 fun LookUpUI(
     navController: NavController,
     modifier: Modifier = Modifier,
-    pageName: String,
-    customerName: String,
-    customerPhone: String
+    pageName: String
 ) {
+    val context = LocalContext.current
+    val (customerName, setCustomerName) = remember { mutableStateOf("") }
+    val (customerPhone, setCustomerPhone) = remember { mutableStateOf("") }
+    val localStorage = remember { LocalStorage(context) }
+
     val viewModel: OrderViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
 
@@ -35,8 +40,11 @@ fun LookUpUI(
     var storeIdFilter by remember { mutableStateOf("") }
     var statusFilter by remember { mutableStateOf("") }
 
-    LaunchedEffect(customerPhone) {
-        viewModel.handleIntent(OrderIntent.GetOrdersByCustomer(customerPhone))
+    LaunchedEffect(Unit) {
+        val (name, phone) = localStorage.getCustomer()
+        setCustomerName(name ?: "")
+        setCustomerPhone(phone ?: "")
+        viewModel.handleIntent(OrderIntent.GetOrdersByCustomer(phone.toString()))
     }
 
     Scaffold(

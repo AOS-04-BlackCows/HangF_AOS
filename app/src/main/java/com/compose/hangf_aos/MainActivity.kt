@@ -31,33 +31,5 @@ class MainActivity : ComponentActivity() {
                 HangFNavigation(modifier = Modifier)
             }
         }
-
-        //DB Test Code
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            DB 직접 연결
-//            try {
-//                val data = DatabaseHelper.fetchData()
-//                withContext(Dispatchers.Main) {
-//                    Log.d("DB_TEST", data.toString()) // UI 업데이트
-//                }
-//
-//            } catch (e: Exception) {
-//                Log.e("DB_TEST API_ERROR", e.message ?: "Unknown error")
-//            }
-
-//
-//            try {
-//                val response = apiService.getCustomers()
-//                if (response.isSuccessful) {
-//                    val customers = response.body()
-//                    Log.d("DB_TEST API_RESPONSE", customers.toString())
-//                    withContext(Dispatchers.Main) {
-//                        // UI 업데이트
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                Log.e("DB_TEST API_ERROR", e.message ?: "Unknown error")
-//            }
-//        }
     }
 }

@@ -56,6 +56,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.compose.hangf_aos.R
+import com.compose.hangf_aos.data.local.LocalStorage
 import com.compose.hangf_aos.data.model.Menu
 import com.compose.hangf_aos.data.model.MenuOrder
 import com.compose.hangf_aos.data.model.Order
@@ -73,18 +74,60 @@ import com.google.gson.reflect.TypeToken
 import com.google.type.TimeOfDay
 import java.util.Calendar
 
+
+@Composable
+fun MenuItemSummary(menu: Menu, count: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(menu.pictureUrl)
+                .transformations(CircleCropTransformation())
+                .build(),
+            contentDescription = "메뉴 이미지",
+            error = painterResource(R.drawable.blackcow_what),
+            placeholder = painterResource(R.drawable.blackcow_what),
+            modifier = Modifier.size(60.dp)
+        )
+        Column(modifier = Modifier
+            .weight(1f)
+            .padding(horizontal = 8.dp)) {
+            Text(text = menu.name, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text(menu.description, fontSize = 12.sp)
+            Text(
+                text = "${menu.price}원 x $count",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        Text(
+            text = "${menu.price * count}원",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.align(Alignment.CenterVertically)
+        )
+    }
+    HorizontalDivider()
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfirmedUI(
     navController: NavController,
     modifier: Modifier = Modifier,
     pageName: String,
-    customerName: String,
-    customerPhone: String,
-    totalPrice: String
+    totalPrice: String,
+    storeId: String
 ) {
-    val isExpanded = remember { mutableStateOf(true) }
     val context = LocalContext.current
+    val (customerName, setCustomerName) = remember { mutableStateOf("") }
+    val (customerPhone, setCustomerPhone) = remember { mutableStateOf("") }
+    val localStorage = remember { LocalStorage(context) }
+
+    val isExpanded = remember { mutableStateOf(true) }
 
     val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
     val selectedMenus = savedStateHandle?.get<List<Pair<Menu, Int>>>("menus")
@@ -114,9 +157,12 @@ fun ConfirmedUI(
     val orderViewModel: OrderViewModel = hiltViewModel()
     val menuOderViewModel: MenuOrderViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(Unit) { // 로딩 완료 후 설정
+        val (name, phone) = localStorage.getCustomer()
+        setCustomerName(name ?: "")
+        setCustomerPhone(phone ?: "")
         orderViewModel.handleIntent(
-            OrderIntent.GetOrdersByCustomer(customerPhone)
+            OrderIntent.GetAllOrders
         )
         menuOderViewModel.handleIntent(MenuOrderIntent.GetAllMenuOrders)
     }
@@ -257,7 +303,7 @@ fun ConfirmedUI(
 
                         var order = Order(
                             id = currentYnM + String.format("%04d", orderLastNumber),
-                            storeId = "힐링쿡 용호동점",
+                            storeId = storeId,
                             customerId = customerPhone,
                             customerName = customerName,
                             userPhoneNumber = customerPhone,
@@ -280,42 +326,4 @@ fun ConfirmedUI(
             }
         }
     }
-}
-
-@Composable
-fun MenuItemSummary(menu: Menu, count: Int) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(menu.pictureUrl)
-                .transformations(CircleCropTransformation())
-                .build(),
-            contentDescription = "메뉴 이미지",
-            error = painterResource(R.drawable.blackcow_what),
-            placeholder = painterResource(R.drawable.blackcow_what),
-            modifier = Modifier.size(60.dp)
-        )
-        Column(modifier = Modifier
-            .weight(1f)
-            .padding(horizontal = 8.dp)) {
-            Text(text = menu.name, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-            Text(menu.description, fontSize = 12.sp)
-            Text(
-                text = "${menu.price}원 x $count",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-        Text(
-            text = "${menu.price * count}원",
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterVertically)
-        )
-    }
-    HorizontalDivider()
 }
